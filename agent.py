@@ -64,6 +64,7 @@ while True:
             # Call the tool (function) with the provided arguments
             result = function_to_call(**arguments)
 
+            # Add the tool call result to the conversation
             messages.append(
                 {
                     "role": "tool",
