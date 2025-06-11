@@ -25,7 +25,7 @@ This repository is designed for hands-on labs and demos focused on understanding
 2. Install dependencies:
 
    ```bash
-   poetry install
+   poetry install --no-root
    ```
 
 ## Usage
