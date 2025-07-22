@@ -1,37 +1,39 @@
-# Agentic LLM Lab
+# Agentic LLM Labs
 
-This repository is designed for hands-on labs and demos focused on understanding agentic AI concepts. It provides tools and examples to explore AI capabilities in a practical and interactive way.
-
-## Features
-
-- Weather forecasting using Open-Meteo API.
-- Geocoding for location-based queries.
-- Interactive chat loop with tool integration.
+This repository contains simple hands-on labs to help you get started interacting with LLMs and understanding Agentic AI (AI Agent) protocols and components.
 
 ## Requirements
 
-- Python 3.10+
-- [Poetry](https://python-poetry.org/) for dependency management.
+- Python 3.13+
+- [uv](https://github.com/astral-sh/uv) for dependency management.
 
 ## Setup
 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/cmlccie/agentic-llm-lab
-   cd agentic-llm-lab
+   git clone https://github.com/cmlccie/agentic-llm-labs
+   cd agentic-llm-labs
    ```
 
-2. Install dependencies:
+2. Install uv (if not already installed):
 
    ```bash
-   poetry install --no-root
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   uv sync --no-install-project
    ```
 
 ## Usage
 
-Run the agent script:
+Edit and run the scripts.
+
+_Example:_
 
 ```bash
-poetry run ./agent.py
+uv run llm-sampling/local.py
 ```
