@@ -1,5 +1,5 @@
 [project]
-name = "agentic-llm-lab"
+name = "agentic-llm-labs"
 version = "0.1.0"
 description = "Simple labs for experimenting with Agentic AI and LLMs."
 authors = [
@@ -10,6 +10,10 @@ requires-python = ">=3.13"
 dependencies = [
     "openai",
     "requests>=2.32.3",
+    "transformers>=4.40.0",
+    "torch>=2.0.0",
+    "accelerate>=0.20.0",
+    "huggingface-hub[cli]>=0.33.4",
 ]
 
 [tool.ruff]
@@ -24,5 +28,3 @@ target-version = "py313"
 # I: flake8-import-order
 # Q: flake8-quotes
 extend-select = [ "B", "I", "Q" ]
-
-ignore-init-module-imports = true
