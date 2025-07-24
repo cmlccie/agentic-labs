@@ -23,9 +23,9 @@ SYSTEM_PROMPT = (
 )
 TEMPERATURE = 0.8
 REPETITION_PENALTY = 1.1
-GENERATE_MAX_TOKENS = 100
+GENERATE_MAX_TOKENS = 1000
 
-USER_PROMPT = "\n\033[94m❯ \033[0m"  # Blue arrow
+USER_PROMPT = "\n\033[94m❯ \033[0m"  # Blue chevron
 
 
 # --------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ USER_PROMPT = "\n\033[94m❯ \033[0m"  # Blue arrow
 def create_chat_pipeline():
     """Create a text generation pipeline with the specified model."""
 
-    print(f"Loading model: {MODEL_NAME}")
+    print(f"\nLoading model: {MODEL_NAME}")
     print("This may take a few minutes on first run (downloading model)...")
 
     # Load tokenizer first to get special token IDs
@@ -60,7 +60,7 @@ def create_chat_pipeline():
         torch_dtype="auto",  # Use optimal precision
     )
 
-    print("Model loaded successfully!\n")
+    print("Model loaded successfully!")
 
     return chat_pipeline
 
@@ -73,10 +73,9 @@ def create_chat_pipeline():
 def chat_with_model(chat_pipeline):
     """Interactive chat loop with the loaded model."""
 
-    print("LLM Chat Lab - Local Inference")
+    print("\nLLM Chat Lab - Local Inference")
     print("==============================")
-    print()
-    print("Type 'quit', 'exit', or 'bye' to end the conversation")
+    print("\nType 'quit', 'exit', or 'bye' to end the conversation")
     print("Type 'clear' to reset conversation history")
 
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
@@ -130,7 +129,7 @@ def chat_with_model(chat_pipeline):
             print(f"\n{generated_text}")
 
         except KeyboardInterrupt:
-            print("\n\n👋 Chat interrupted. Goodbye!")
+            print("\n👋 Chat interrupted. Goodbye!")
             break
         except Exception as e:
             print(f"\n❌ Error: {e}")
@@ -147,7 +146,7 @@ def main():
         chat_with_model(chat_pipeline)
 
     except Exception as e:
-        print(f"❌ Failed to initialize: {e}")
+        print(f"\n❌ Failed to initialize: {e}")
         print("Make sure you have installed the dependencies with: uv sync")
         sys.exit(1)
 
