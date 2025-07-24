@@ -14,14 +14,14 @@ from transformers.pipelines import pipeline
 # Constants
 # --------------------------------------------------------------------------------------
 
-MODEL_NAME = "meta-llama/Llama-3.2-1B"
+MODEL_NAME = "meta-llama/Llama-3.2-1B-Instruct"
 SYSTEM_PROMPT = (
     "You are a helpful assistant. "
     "You will always respond in a helpful and informative manner. "
     "If you don't know the answer, you will say 'I don't know'. "
     "If you are unsure about something, ask for clarification. "
 )
-TEMPERATURE = 0.9
+TEMPERATURE = 0.8
 REPETITION_PENALTY = 1.1
 GENERATE_MAX_TOKENS = 100
 
@@ -33,14 +33,14 @@ USER_PROMPT = "\n\033[94m❯ \033[0m"  # Blue arrow
 # --------------------------------------------------------------------------------------
 
 
-def create_chat_pipeline(model_name: str = MODEL_NAME):
+def create_chat_pipeline():
     """Create a text generation pipeline with the specified model."""
 
-    print(f"Loading model: {model_name}")
+    print(f"Loading model: {MODEL_NAME}")
     print("This may take a few minutes on first run (downloading model)...")
 
     # Load tokenizer first to get special token IDs
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 
     # Get pad token ID - use eos_token_id if pad_token_id doesn't exist
     pad_token_id = (
@@ -52,7 +52,7 @@ def create_chat_pipeline(model_name: str = MODEL_NAME):
     # Create the pipeline - this will automatically download the model if needed
     chat_pipeline = pipeline(
         "text-generation",
-        model=model_name,
+        model=MODEL_NAME,
         tokenizer=tokenizer,
         pad_token_id=pad_token_id,
         eos_token_id=tokenizer.eos_token_id,
@@ -79,7 +79,8 @@ def chat_with_model(chat_pipeline):
     print("Type 'quit', 'exit', or 'bye' to end the conversation")
     print("Type 'clear' to reset conversation history")
 
-    context = SYSTEM_PROMPT  # Initialize the context for the model
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
 
     # Chat loop
     while True:
@@ -88,12 +89,12 @@ def chat_with_model(chat_pipeline):
 
             # Handle special commands
             if user_prompt.lower().strip() in ["quit", "exit", "bye"]:
-                print("👋 Thanks for chatting! Goodbye!")
+                print("\n👋 Thanks for chatting! Goodbye!")
                 break
 
             elif user_prompt.lower() == "clear":
-                context = SYSTEM_PROMPT
-                print("🧹 Conversation history cleared!\n")
+                messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+                print("\n🧹 Conversation history cleared!")
                 continue
 
             # Handle empty input
@@ -102,10 +103,14 @@ def chat_with_model(chat_pipeline):
 
             # Add user prompt to context
             else:
-                context += f"\nUser: {user_prompt}"
+                messages.append({"role": "user", "content": user_prompt})
 
-            # Add Assistant prompt to the context
-            context += "\nAssistant: "
+            # Prepare context for the model
+            context = tokenizer.apply_chat_template(
+                messages,
+                tokenize=False,  # The pipeline will handle tokenization
+                add_generation_prompt=True,  # Add generation prompt for the model
+            )
 
             # Generate a response
             response = chat_pipeline(
@@ -117,19 +122,12 @@ def chat_with_model(chat_pipeline):
             )
 
             # Extract and clean-up the generated text
-            generated_text = (
-                response[0]["generated_text"][len(context) :]
-                .strip()  # Skip the context part to get only the new response
-                .split("Assistant: ")[0]
-                .strip()  # Get the first "Assistant: " response
-                .split("User: ")[0]
-                .strip()  # Remove any generated user prompt(s)
-            )
-
-            print(f"\n{generated_text}")
+            generated_text = response[0]["generated_text"][len(context) :].strip()
 
             # Update context with the new response
-            context += f"\nAssistant: {generated_text}"
+            messages.append({"role": "assistant", "content": generated_text})
+
+            print(f"\n{generated_text}")
 
         except KeyboardInterrupt:
             print("\n\n👋 Chat interrupted. Goodbye!")
