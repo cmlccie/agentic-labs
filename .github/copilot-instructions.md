@@ -2,12 +2,12 @@
 
 ## Project Overview
 
-This is an educational repository for experimenting with LLMs and agentic AI patterns. The codebase demonstrates two main architectures:
+This is an educational repository for experimenting with LLMs and agentic AI patterns.
 
 - Code samples should run with minimal setup.
 - Code is designed for clarity and educational purposes, not production use.
 - Code structure should be simple, linear, and easy to follow.
-- Use flat, single-file scripts for most examples.
+- Use flat, single-file scripts for most labs.
 - Don't add error handling or abstractions unless absolutely necessary.
 - Only use functions and classes when necessary.
 - Focus on practical examples of LLM interactions, tool use, and agentic behavior.
@@ -25,13 +25,12 @@ When generating lab instructions, follow these guidelines:
 - Don't include code from a lab's scripts.
 - If necessary, refer the learner to the code in the lab scripts.
 - Use the tell, show, tell method for the top-level README instructions. Tell the user what they will see, walk them through running the code, and then tell them what they just saw.
-- Do not use the tell, how, tell method for the lab-specific instructions.
 
 ## Key Architectural Patterns
 
 ### Dependency Management & Script Execution
 
-- Uses `uv` (not pip/poetry) for all package management.
+- Use `uv` (not pip/poetry) for all package management.
 - Dependencies defined in `pyproject.toml`, locked in `uv.lock`.
 - Scripts should have a shebang line (`#!/usr/bin/env python3`) at the top and be executable.
 - Always run commands via: `uv run <script>`.
@@ -41,12 +40,6 @@ When generating lab instructions, follow these guidelines:
 - Shared utilities in `src/agentic_llm_labs/` (installable package).
 - Executable labs in `labs/` subdirectories.
 - Each lab has its own README with specific instructions.
-
-### HuggingFace Setup Required
-
-- Must authenticate: `uv run huggingface-cli login`.
-- Requires access to Llama model collections.
-- Models auto-download to HuggingFace cache on first run.
 
 ### Logging System (`src/agentic_llm_labs/logging.py`)
 
@@ -71,9 +64,9 @@ messages = [
 
 ### Terminal IO Consistency
 
-- Use a simple Chevron prompt: `❯ ` for user input prompts.
-- Handle special commands: `quit`, `exit`, `bye`, and `clear` (conversation reset).
+- Use a simple Chevron prompt: `❯ ` to prompt users for input.
+- Handle special commands: `quit`, `exit`.
 
 ## Avoid
 
-- Don't use `pip install` - always use `uv run` or `uv sync`.
+- Don't use `pip install` - always use `uv sync`.
