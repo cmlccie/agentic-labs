@@ -13,21 +13,21 @@ This repository contains simple hands-on labs to help you get started interactin
 
 1. Clone the repository:
 
-   ```bash
+   ```sh
    git clone https://github.com/cmlccie/agentic-llm-labs
    cd agentic-llm-labs
    ```
 
 2. Install uv (if not already installed):
 
-   ```bash
+   ```sh
    curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
 
 3. Install dependencies:
 
-   ```bash
-   uv sync --no-install-project
+   ```sh
+   uv sync
    ```
 
 4. Set up HuggingFace access:
@@ -40,7 +40,7 @@ This repository contains simple hands-on labs to help you get started interactin
 
    c. Login with your HuggingFace token:
 
-   ```bash
+   ```sh
    uv run huggingface-cli login
    ```
 
@@ -50,6 +50,6 @@ Edit and run the labs!
 
 _Example:_
 
-```bash
-uv run labs/llm-chat/local.py
+```sh
+uv run labs/llm/chat.py
 ```
