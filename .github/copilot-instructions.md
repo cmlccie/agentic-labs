@@ -15,6 +15,18 @@ This is an educational repository for experimenting with LLMs and agentic AI pat
 - Uses HuggingFace Transformers and other libraries for LLM interactions.
 - Experimentation is encouraged, and users should feel free to modify and extend the code.
 
+## Lab Instructions
+
+When generating lab instructions, follow these guidelines:
+
+- Use concise, clear language.
+- Use active voice.
+- Provide step-by-step instructions.
+- Don't include code from a lab's scripts.
+- If necessary, refer the learner to the code in the lab scripts.
+- Use the tell, show, tell method for the top-level README instructions. Tell the user what they will see, walk them through running the code, and then tell them what they just saw.
+- Do not use the tell, how, tell method for the lab-specific instructions.
+
 ## Key Architectural Patterns
 
 ### Dependency Management & Script Execution
