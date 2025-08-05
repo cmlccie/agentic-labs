@@ -1,12 +1,9 @@
-"""Agent Tools."""
+"""Weather Agent Tools."""
 
+import logging
 from typing import Optional
 
 import requests
-
-# -------------------------------------------------------------------------------------------------
-# Tools
-# -------------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------
 # Get Weather
@@ -14,6 +11,10 @@ import requests
 
 
 def get_weather(latitude: float, longitude: float):
+    """Get today's weather forecast for the provided coordinates."""
+
+    logging.info(f"Getting weather for coordinates: {latitude}, {longitude}")
+
     params = {
         "forecast_days": 1,
         "timezone": "auto",
@@ -54,6 +55,7 @@ def get_weather(latitude: float, longitude: float):
         "precipitation_probability": data["daily"]["precipitation_probability_max"][0],
     }
 
+    logging.info(f"Weather data retrieved: {weather_data}")
     return weather_data
 
 
@@ -89,6 +91,12 @@ GET_WEATHER_DESCRIPTION = {
 
 
 def get_coordinates(location_name: str, country_code: Optional[str] = None):
+    """Get the longitude and latitude coordinates for a location."""
+
+    logging.info(
+        f"Getting coordinates for location: {location_name!r}, country code: {country_code!r}"
+    )
+
     params = {
         "name": location_name,
         "count": 1,
@@ -113,6 +121,8 @@ def get_coordinates(location_name: str, country_code: Optional[str] = None):
         "latitude": data["results"][0]["latitude"],
         "longitude": data["results"][0]["longitude"],
     }
+
+    logging.info(f"Coordinates retrieved: {location_data}")
 
     return location_data
 
