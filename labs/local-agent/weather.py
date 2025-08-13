@@ -1,23 +1,43 @@
 #!/usr/bin/env python3
-"""Local Weather Agent Lab."""
+"""Local Weather Agent Lab (Llama-3.1-8B-Instruct, Transformers)."""
 
 import json
 import logging
+from typing import Any, Dict, List
 
-from openai import OpenAI
-from tools import functions, tools
+import torch
+from tools import get_coordinates, get_weather
+from transformers import AutoTokenizer
+from transformers.pipelines import pipeline
 
 import agentic_llm_labs.logging
 
-MODEL = "ministral-8b-instruct-2410"
-SYSTEM_PROMPT = "You are a helpful weather assistant. Use the provided tools to get weather information."
-
-
 agentic_llm_labs.logging.colorized_config(level=logging.INFO)
-client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
 
-messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+MODEL_NAME = "meta-llama/Llama-3.1-8B-Instruct"
+SYSTEM_PROMPT = (
+    "You are a helpful weather assistant. "
+    "Use the provided tools to get weather information. "
+    "Only call one tool at a time, and only if necessary. "
+    "After getting the weather data, provide a clear, conversational summary of the weather conditions."
+)
+MAX_NEW_TOKENS = 256
 
+
+messages: List[Dict[str, Any]] = [{"role": "system", "content": SYSTEM_PROMPT}]
+
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+
+generate = pipeline(
+    "text-generation",
+    model=MODEL_NAME,
+    tokenizer=tokenizer,
+    torch_dtype=torch.bfloat16,
+    device_map="auto",
+    pad_token_id=tokenizer.eos_token_id,
+)
+
+# Chat loop
 while True:
     user_input = input("\n❯ ").strip()
     if not user_input.strip():
@@ -27,48 +47,43 @@ while True:
 
     messages.append({"role": "user", "content": user_input})
 
-    # Get the initial model response to the user's input
-    completion = client.chat.completions.create(
-        model=MODEL,
-        messages=messages,
-        tools=tools,
-    )
-
-    # If the model requests tool calls, add the tool call request to messages
-    # and execute the functions, then add the results to the messages and
-    # prompt the model to respond. Continue until there are no more tool call
-    # requests.
-    while completion.choices[0].message.tool_calls:
-        for tool_call in completion.choices[0].message.tool_calls:
-            # Add tool call request to messages
-            messages.append(completion.choices[0].message)
-
-            # Call the function
-            function_name = tool_call.function.name
-            arguments = json.loads(tool_call.function.arguments)
-            logging.info(
-                f"LLM Requested Tool Call: {function_name!r} with arguments: {arguments!r}"
-            )
-            result = functions[function_name](**arguments)
-
-            # Add tool call result to messages
-            messages.append(
-                {
-                    "role": "tool",
-                    "tool_call_id": tool_call.id,
-                    "content": str(result),
-                }
-            )
-
-        # Get the model's response after the tool calls have been made and
-        # results included.
-        completion = client.chat.completions.create(
-            model=MODEL,
-            messages=messages,
-            tools=tools,
+    # Tool call loop
+    while True:
+        rendered_template = tokenizer.apply_chat_template(
+            messages,
+            tools=[get_coordinates, get_weather],
+            tokenize=False,
+            add_generation_prompt=True,
         )
 
-    # Print and save the final response
-    response = completion.choices[0].message.content
-    messages.append(completion.choices[0].message)
-    print(f"\n{response}")
+        output = generate(rendered_template, max_new_tokens=MAX_NEW_TOKENS)
+
+        generated_text = output[0]["generated_text"]
+        logging.debug(f"Generated text:\n{generated_text}")
+
+        response = generated_text[len(rendered_template) :].strip()
+
+        try:
+            # Detect tool call, expects JSON: {"name": ..., "parameters": {...}}
+            tool_call = json.loads(response)
+            tool_name = tool_call.get("name")
+            parameters = tool_call.get("parameters", {})
+
+            if tool_name == "get_coordinates":
+                result = get_coordinates(**parameters)
+            elif tool_name == "get_weather":
+                result = get_weather(**parameters)
+            else:
+                logging.error(f"Unknown tool call: {tool_name}")
+                break
+
+            # Add the tool call and result to the conversation
+            messages.append({"role": "assistant", "content": tool_call})
+            messages.append({"role": "tool", "name": tool_name, "content": result})
+            continue
+
+        except json.JSONDecodeError:
+            # Not a tool call response, just a text response.
+            messages.append({"role": "assistant", "content": response})
+            print(f"\n{response}")
+            break

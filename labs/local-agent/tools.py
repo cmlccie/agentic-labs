@@ -11,9 +11,23 @@ import requests
 
 
 def get_weather(latitude: float, longitude: float):
-    """Get today's weather forecast for the provided coordinates."""
+    """Get today's weather forecast for the provided coordinates.
 
-    logging.info(f"Getting weather for coordinates: {latitude}, {longitude}")
+    Includes sunrise and sunset times; minimum, maximum, and mean temperatures (in Fahrenheit);
+    rain, showers, and snowfall precipitation (in inches);
+    precipitation probability (in percentage).
+
+    Args:
+        latitude: Coordinate latitude in degrees.
+        longitude: Coordinate longitude in degrees.
+
+    Returns:
+        Weather data including sunrise, sunset, temperatures, and precipitation.
+    """
+
+    logging.info(
+        f"Tool Call: get_weather(latitude={latitude!r}, longitude={longitude!r})"
+    )
 
     params = {
         "forecast_days": 1,
@@ -55,35 +69,11 @@ def get_weather(latitude: float, longitude: float):
         "precipitation_probability": data["daily"]["precipitation_probability_max"][0],
     }
 
-    logging.info(f"Weather data retrieved: {weather_data}")
+    logging.info(
+        f"Result:    get_weather(latitude={latitude!r}, longitude={longitude!r}) -> {weather_data}"
+    )
     return weather_data
 
-
-GET_WEATHER_DESCRIPTION = {
-    "type": "function",
-    "function": {
-        "name": "get_weather",
-        "description": "Get today's weather forecast for the provided coordinates, including:"
-        " sunrise and sunset times; minimum, maximum, and mean temperatures (in Fahrenheit);"
-        " rain, showers, and snowfall precipitation (in inches);"
-        " precipitation probability (in percentage).",
-        "strict": True,
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "latitude": {
-                    "type": "number",
-                    "description": "Coordinate latitude in degrees.",
-                },
-                "longitude": {
-                    "type": "number",
-                    "description": "Coordinate longitude in degrees.",
-                },
-            },
-        },
-        "required": ["latitude", "longitude"],
-    },
-}
 
 # --------------------------------------------------------------------------------------
 # Get Coordinates
@@ -91,10 +81,18 @@ GET_WEATHER_DESCRIPTION = {
 
 
 def get_coordinates(location_name: str, country_code: Optional[str] = None):
-    """Get the longitude and latitude coordinates for a location."""
+    """Get the longitude and latitude coordinates for a location.
+
+    Args:
+        location_name: Name of the location (e.g., city name).
+        country_code: ISO-3166-1 alpha2 country code (e.g., "DE" for Germany).
+
+    Returns:
+        A dictionary containing the location name, country, latitude, and longitude.
+    """
 
     logging.info(
-        f"Getting coordinates for location: {location_name!r}, country code: {country_code!r}"
+        f"Tool Call: get_coordinates(location_name={location_name!r}, country_code={country_code!r})"
     )
 
     params = {
@@ -122,44 +120,8 @@ def get_coordinates(location_name: str, country_code: Optional[str] = None):
         "longitude": data["results"][0]["longitude"],
     }
 
-    logging.info(f"Coordinates retrieved: {location_data}")
+    logging.info(
+        f"Result:    get_coordinates(location_name={location_name!r}, country_code={country_code!r}) -> {location_data}"
+    )
 
     return location_data
-
-
-GET_COORDINATES_DESCRIPTION = {
-    "type": "function",
-    "function": {
-        "name": "get_coordinates",
-        "description": "Get the longitude and latitude coordinates for a location.",
-        "strict": True,
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "location_name": {
-                    "type": "string",
-                    "description": "Location city (e.g. Berlin).",
-                },
-                "country_code": {
-                    "type": "string",
-                    "description": "ISO-3166-1 alpha2 country code (e.g. DE).",
-                },
-            },
-        },
-        "required": ["location_name"],
-    },
-}
-
-# -------------------------------------------------------------------------------------------------
-# Module Exports
-# -------------------------------------------------------------------------------------------------
-
-tools = [
-    GET_WEATHER_DESCRIPTION,
-    GET_COORDINATES_DESCRIPTION,
-]
-
-functions = {
-    "get_weather": get_weather,
-    "get_coordinates": get_coordinates,
-}
