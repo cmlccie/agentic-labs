@@ -26,7 +26,7 @@ def get_weather(latitude: float, longitude: float):
     """
 
     logging.info(
-        f"Tool Call: get_weather(latitude={latitude!r}, longitude={longitude!r})"
+        f"Tool Call:    get_weather(latitude={latitude!r}, longitude={longitude!r})"
     )
 
     params = {
@@ -70,7 +70,7 @@ def get_weather(latitude: float, longitude: float):
     }
 
     logging.info(
-        f"Result:    get_weather(latitude={latitude!r}, longitude={longitude!r}) -> {weather_data}"
+        f"Tool Result:  get_weather(latitude={latitude!r}, longitude={longitude!r}) -> {weather_data}"
     )
     return weather_data
 
@@ -92,7 +92,7 @@ def get_coordinates(location_name: str, country_code: Optional[str] = None):
     """
 
     logging.info(
-        f"Tool Call: get_coordinates(location_name={location_name!r}, country_code={country_code!r})"
+        f"Tool Call:    get_coordinates(location_name={location_name!r}, country_code={country_code!r})"
     )
 
     params = {
@@ -121,7 +121,7 @@ def get_coordinates(location_name: str, country_code: Optional[str] = None):
     }
 
     logging.info(
-        f"Result:    get_coordinates(location_name={location_name!r}, country_code={country_code!r}) -> {location_data}"
+        f"Tool Result:  get_coordinates(location_name={location_name!r}, country_code={country_code!r}) -> {location_data}"
     )
 
     return location_data

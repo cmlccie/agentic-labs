@@ -56,6 +56,7 @@ while True:
             add_generation_prompt=True,
         )
 
+        logging.info("Generating...")
         output = generate(rendered_template, max_new_tokens=MAX_NEW_TOKENS)
 
         generated_text = output[0]["generated_text"]
@@ -64,22 +65,24 @@ while True:
         response = generated_text[len(rendered_template) :].strip()
 
         try:
-            # Detect tool call, expects JSON: {"name": ..., "parameters": {...}}
-            tool_call = json.loads(response)
-            tool_name = tool_call.get("name")
-            parameters = tool_call.get("parameters", {})
+            # Detect tool request, expects JSON: {"name": ..., "parameters": {...}}
+            tool_request = json.loads(response)
+            logging.info(f"Tool Request: {tool_request}")
+
+            tool_name = tool_request.get("name")
+            parameters = tool_request.get("parameters", {})
 
             if tool_name == "get_coordinates":
-                result = get_coordinates(**parameters)
+                tool_result = get_coordinates(**parameters)
             elif tool_name == "get_weather":
-                result = get_weather(**parameters)
+                tool_result = get_weather(**parameters)
             else:
                 logging.error(f"Unknown tool call: {tool_name}")
                 break
 
             # Add the tool call and result to the conversation
-            messages.append({"role": "assistant", "content": tool_call})
-            messages.append({"role": "tool", "name": tool_name, "content": result})
+            messages.append({"role": "assistant", "content": tool_request})
+            messages.append({"role": "tool", "name": tool_name, "content": tool_result})
             continue
 
         except json.JSONDecodeError:
