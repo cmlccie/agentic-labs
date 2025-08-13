@@ -14,7 +14,7 @@ messages = [{"role": "system", "content": SYSTEM_PROMPT}]
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 
-pipe = pipeline(
+generate = pipeline(
     "text-generation",
     model=MODEL_NAME,
     tokenizer=tokenizer,
@@ -32,7 +32,7 @@ while True:
 
     messages.append({"role": "user", "content": user_input})
 
-    output = pipe(messages, max_new_tokens=MAX_NEW_TOKENS)
+    output = generate(messages, max_new_tokens=MAX_NEW_TOKENS)
 
     assistant_response = output[0]["generated_text"][-1]
     messages.append(assistant_response)

@@ -19,7 +19,7 @@ messages = [
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 
-pipe = pipeline(
+generate = pipeline(
     "text-generation",
     model=MODEL_NAME,
     tokenizer=tokenizer,
@@ -28,6 +28,6 @@ pipe = pipeline(
     pad_token_id=tokenizer.eos_token_id,  # Explicitly set to suppress warning
 )
 
-output = pipe(messages, max_new_tokens=MAX_NEW_TOKENS)
+output = generate(messages, max_new_tokens=MAX_NEW_TOKENS)
 
 print(output)
