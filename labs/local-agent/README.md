@@ -24,10 +24,10 @@ When using tools, we have to use an iterative process:
 
 ## Setup
 
-This lab uses a local LLM server via LM Studio. Make sure you have:
+This lab uses HuggingFace Transformers to run the Llama-3.1-8B-Instruct model locally. Make sure you have:
 
-1. LM Studio running locally on port 1234
-2. A compatible model loaded (the script uses `ministral-8b-instruct-2410`)
+1. A compatible GPU with sufficient VRAM (16GB+ recommended for the 8B model)
+2. Access to the Meta Llama models on HuggingFace (may require accepting license terms)
 
 ## Running the Lab
 
@@ -59,32 +59,35 @@ Each step adds more context to the conversation, building up the information nee
 
 ## Understanding the Code
 
-### Tool Definitions (`tools.py`)
+### Tool Functions (`tools.py`)
 
-The tools module exports two key components:
+Two weather-related tools are available:
 
-- `functions`: A dictionary mapping function names to executable Python functions.
-- `tools`: OpenAI-compatible tool descriptions that tell the LLM what functions are available.
+- `get_coordinates()`: Uses OpenMeteo's geocoding API to convert location names to coordinates
+- `get_weather()`: Uses OpenMeteo's forecast API to get weather data for specific coordinates
 
 ### Agent Loop (`weather.py`)
 
-The main script implements the agent pattern:
+The main script implements the agent pattern using HuggingFace Transformers:
 
-1. **Message Management**: Maintains conversation history in OpenAI message format
-2. **Tool Call Detection**: Checks if the LLM response includes tool calls
-3. **Tool Execution**: Runs requested functions and adds results to conversation
-4. **Iterative Processing**: Continues until no more tool calls are needed
+1. **Model Setup**: Loads Llama-3.1-8B-Instruct using the transformers pipeline
+2. **Template Rendering**: Uses the tokenizer's chat template with tool definitions
+3. **Tool Call Detection**: Parses JSON responses to detect tool requests
+4. **Tool Execution**: Uses pattern matching to route tool calls to the correct functions
+5. **Iterative Processing**: Continues until no more tool calls are needed
 
 ### Key Implementation Details
 
-- **Stateless Context**: Every LLM call includes the complete conversation history.
-- **Tool Call Loop**: The `while completion.choices[0].message.tool_calls:` loop handles multiple tool calls.
-- **Message Threading**: Tool calls and results are properly added to maintain conversation context.
+- **Local Model**: Runs Llama-3.1-8B-Instruct directly using HuggingFace Transformers
+- **Chat Templates**: Uses the model's built-in chat template with tool support
+- **Pattern Matching**: Uses Python 3.10+ `match` statements for tool routing
+- **Message Threading**: Tool calls and results are properly added to maintain conversation context
 
 ## Experiments to Try
 
 1. **Break the chain**: Ask for weather without specifying a location - observe how the LLM handles missing information.
 2. **Multiple locations**: Ask about weather in multiple cities in one request.
 3. **Context building**: Ask follow-up questions about the same location - notice how previous tool results remain in context.
+4. **Model behavior**: Observe how the model decides when to call tools vs. when to provide direct responses.
 
-This lab illustrates how agents coordinate between stateless LLMs and external tools to create interactive, capable AI systems.
+This lab illustrates how agents coordinate between local LLMs and external tools to create interactive, capable AI systems using modern Python features like structural pattern matching.

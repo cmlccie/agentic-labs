@@ -69,20 +69,20 @@ while True:
             tool_request = json.loads(response)
             logging.info(f"Tool Request: {tool_request}")
 
-            tool_name = tool_request.get("name")
-            parameters = tool_request.get("parameters", {})
+            match tool_request:
+                case {"name": "get_coordinates", "parameters": parameters}:
+                    tool_result = get_coordinates(**parameters)
+                case {"name": "get_weather", "parameters": parameters}:
+                    tool_result = get_weather(**parameters)
+                case _:
+                    logging.error(f"Unknown tool request: {tool_request}")
+                    break
 
-            if tool_name == "get_coordinates":
-                tool_result = get_coordinates(**parameters)
-            elif tool_name == "get_weather":
-                tool_result = get_weather(**parameters)
-            else:
-                logging.error(f"Unknown tool call: {tool_name}")
-                break
-
-            # Add the tool call and result to the conversation
+            # Add the tool request and result to the conversation
             messages.append({"role": "assistant", "content": tool_request})
-            messages.append({"role": "tool", "name": tool_name, "content": tool_result})
+            messages.append(
+                {"role": "tool", "name": tool_request["name"], "content": tool_result}
+            )
             continue
 
         except json.JSONDecodeError:
