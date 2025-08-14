@@ -22,18 +22,24 @@ When generating lab instructions, follow these guidelines:
 - Use concise, clear language.
 - Use active voice.
 - Provide step-by-step instructions.
-- Don't include code from a lab's scripts.
-- If necessary, refer the learner to the code in the lab scripts.
+- Don't include code from a lab's scripts; if necessary, refer the learner to code in the lab scripts.
 - Use the tell, show, tell method for the top-level README instructions. Tell the user what they will see, walk them through running the code, and then tell them what they just saw.
+
+### List Style Guidelines
+
+- All items in a list should be consistently structured (either simple phrases or complete sentences).
+- When a list contains sentences, each sentence should end with a period.
+- When a list contains simple phrases, do not use periods.
+- Maintain parallel structure across all items in the same list.
 
 ## Key Architectural Patterns
 
 ### Dependency Management & Script Execution
 
-- Use `uv` (not pip/poetry) for all package management.
+- Use `uv` (not `pip` or `poetry`) for all package management.
 - Dependencies defined in `pyproject.toml`, locked in `uv.lock`.
 - Scripts should have a shebang line (`#!/usr/bin/env python3`) at the top and be executable.
-- Always run commands via: `uv run <script>`.
+- Always run commands via `uv run <relative-path-to-script>` from the repository root directory.
 
 ### Code Organization
 
@@ -65,7 +71,7 @@ messages = [
 ### Terminal IO Consistency
 
 - Use a simple Chevron prompt: `❯ ` to prompt users for input.
-- Handle special commands: `quit`, `exit`.
+- Handle special commands: `quit`, `exit`, and `clear`.
 
 ## Avoid
 

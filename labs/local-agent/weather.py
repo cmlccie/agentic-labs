@@ -37,7 +37,7 @@ generate = pipeline(
     pad_token_id=tokenizer.eos_token_id,
 )
 
-# Chat loop
+# Chat Loop
 while True:
     user_input = input("\n❯ ").strip()
     match user_input.lower():
@@ -52,7 +52,7 @@ while True:
 
     messages.append({"role": "user", "content": user_input})
 
-    # Tool call loop
+    # Tool Loop
     while True:
         rendered_template = tokenizer.apply_chat_template(
             messages,
@@ -70,7 +70,7 @@ while True:
         response = generated_text[len(rendered_template) :].strip()
 
         try:
-            # Detect tool request, expects JSON: {"name": ..., "parameters": {...}}
+            # Detect tool request, should be a JSON object: {"name": ..., "parameters": {...}}
             tool_request = json.loads(response)
             logging.info(f"Tool Request: {tool_request}")
 
@@ -91,7 +91,7 @@ while True:
             continue
 
         except json.JSONDecodeError:
-            # Not a tool call response, just a text response.
+            # Not a JSON tool call request, just a text response
             messages.append({"role": "assistant", "content": response})
             print(f"\n{response}")
             break

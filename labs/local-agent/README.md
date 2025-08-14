@@ -15,19 +15,19 @@ LLMs are stateless - they don't remember previous interactions. Every request mu
 
 When using tools, we have to use an iterative process:
 
-1. Send full conversation history to the LLM to generate a response
+1. Send full conversation history to the LLM to generate a response.
 2. LLM determines if it needs additional context and responds with a tool call request:
-   1. Agent executes the requested tool calls
-   2. Agent adds the tool call requests and results to the conversation history
-3. Repeat (going back to step 1) until LLM provides a response without a tool call request
-4. Send the LLM's response to the user
+   1. Agent executes the requested tool calls.
+   2. Agent adds the tool call requests and results to the conversation history.
+3. Repeat (going back to step 1) until LLM provides a response without a tool call request.
+4. Send the LLM's response to the user.
 
 ## Note on System Requirements
 
 This lab uses HuggingFace Transformers to run the Llama-3.2-3B-Instruct model locally. This model can run on:
 
-1. **CPU**: Works on most modern laptops (16GB+ RAM recommended, as the model will use ~6GB)
-2. **GPU**: Any compatible GPU with 8GB+ VRAM for faster inference
+1. **CPU**: Works on most modern laptops (16GB+ RAM recommended, as the model will use ~6GB).
+2. **GPU**: Any compatible GPU with 8GB+ VRAM for faster inference.
 
 The smaller 3B model makes this lab accessible on developer laptops without requiring high-end hardware.
 
@@ -51,11 +51,11 @@ Type `quit` or `exit` to end the conversation or `clear` to clear the conversati
 
 When you ask about weather in a location, you'll see the agent:
 
-1. **First LLM call**: The model receives your question and decides it needs location coordinates
-2. **Tool execution**: The agent calls `get_coordinates()` to find the latitude/longitude
-3. **Second LLM call**: The model receives the coordinates and decides it needs weather data
-4. **Tool execution**: The agent calls `get_weather()` with the coordinates
-5. **Final LLM call**: The model receives weather data and formats a human-readable response
+1. **First LLM call**: The model receives your question and decides it needs location coordinates.
+2. **Tool execution**: The agent calls `get_coordinates()` to find the latitude/longitude.
+3. **Second LLM call**: The model receives the coordinates and decides it needs weather data.
+4. **Tool execution**: The agent calls `get_weather()` with the coordinates.
+5. **Final LLM call**: The model receives weather data and formats a human-readable response.
 
 Each step adds more context to the conversation, building up the information needed for the final response.
 
@@ -65,25 +65,25 @@ Each step adds more context to the conversation, building up the information nee
 
 Two weather-related tools are available:
 
-- `get_coordinates()`: Uses OpenMeteo's geocoding API to convert location names to coordinates
-- `get_weather()`: Uses OpenMeteo's forecast API to get weather data for specific coordinates
+- `get_coordinates()`: Uses OpenMeteo's geocoding API to convert location names to coordinates.
+- `get_weather()`: Uses OpenMeteo's forecast API to get weather data for specific coordinates.
 
 ### Agent Loop (`weather.py`)
 
 The main script implements the agent pattern using HuggingFace Transformers:
 
-1. **Model Setup**: Loads Llama-3.2-3B-Instruct using the transformers pipeline
-2. **Template Rendering**: Uses the tokenizer's chat template with tool definitions
-3. **Tool Call Detection**: Parses JSON responses to detect tool requests
-4. **Tool Execution**: Uses pattern matching to route tool calls to the correct functions
-5. **Iterative Processing**: Continues until no more tool calls are needed
+1. **Model Setup**: Loads Llama-3.2-3B-Instruct using the transformers pipeline.
+2. **Template Rendering**: Uses the tokenizer's chat template with tool definitions.
+3. **Tool Call Detection**: Parses JSON responses to detect tool requests.
+4. **Tool Execution**: Uses pattern matching to route tool calls to the correct functions.
+5. **Iterative Processing**: Continues until no more tool calls are needed.
 
 ### Key Implementation Details
 
-- **Local Model**: Runs Llama-3.2-3B-Instruct directly using HuggingFace Transformers
-- **Chat Templates**: Uses the model's built-in chat template with tool support
-- **Pattern Matching**: Uses Python 3.10+ `match` statements for tool routing
-- **Message Threading**: Tool calls and results are properly added to maintain conversation context
+- **Local Model**: Runs Llama-3.2-3B-Instruct directly using HuggingFace Transformers.
+- **Chat Templates**: Uses the model's built-in chat template with tool support.
+- **Pattern Matching**: Uses Python 3.10+ `match` statements for tool routing.
+- **Message Threading**: Tool calls and results are properly added to maintain conversation context.
 
 ## Experiments to Try
 
