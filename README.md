@@ -18,7 +18,7 @@ This repository contains simple hands-on labs to help you get started interactin
    cd agentic-llm-labs
    ```
 
-2. Install uv (if not already installed):
+2. Install [`uv`](https://docs.astral.sh/uv/) (if not already installed):
 
    ```sh
    curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -36,6 +36,7 @@ This repository contains simple hands-on labs to help you get started interactin
 
    b. Request access to the following Llama collections at [https://huggingface.co/meta-llama](https://huggingface.co/meta-llama):
 
+   - Llama 3.1
    - Llama 3.2
 
    c. Login with your HuggingFace token:
