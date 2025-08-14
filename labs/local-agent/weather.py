@@ -40,7 +40,7 @@ generate = pipeline(
 # Chat loop
 while True:
     user_input = input("\n❯ ").strip()
-    match user_input.strip().lower():
+    match user_input.lower():
         case "clear":
             messages = [{"role": "system", "content": SYSTEM_PROMPT}]
             print("\nConversation history cleared.")

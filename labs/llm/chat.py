@@ -25,10 +25,15 @@ generate = pipeline(
 
 while True:
     user_input = input("\n❯ ").strip()
-    if not user_input.strip():
-        continue
-    if user_input.strip().lower() in ["exit", "quit"]:
-        break
+    match user_input.lower():
+        case "clear":
+            messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+            print("\nConversation history cleared.")
+            continue
+        case "exit" | "quit":
+            break
+        case "":
+            continue
 
     messages.append({"role": "user", "content": user_input})
 

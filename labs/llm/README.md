@@ -44,7 +44,7 @@ Enter a message and watch the complete pipeline in action. You'll see the raw mo
 uv run labs/llm/chat.py
 ```
 
-Have a conversation with the model. Type `quit` or `exit` to end. Notice how each response takes longer as the conversation grows - the model processes the entire history every time.
+Have a conversation with the model. Type `quit` or `exit` to end or `clear` to clear the conversation history. Notice how each response takes longer as the conversation grows - the model processes the entire conversation every time.
 
 ## What You Just Learned
 
