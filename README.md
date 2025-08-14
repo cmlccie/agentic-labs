@@ -34,10 +34,10 @@ This repository contains simple hands-on labs to help you get started interactin
 
    a. Create a HuggingFace account at [https://huggingface.co](https://huggingface.co)
 
-   b. Request access to the following Llama collections at [https://huggingface.co/meta-llama](https://huggingface.co/meta-llama):
+   b. Request access to the following models - requesting access to a model in a collection should grant you access to all models in the collection (e.g. Llama 3.2):
 
-   - Llama 3.1
-   - Llama 3.2
+   - [`meta-llama/Llama-3.2-1B-Instruct`](https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct)
+   - [`meta-llama/Llama-3.2-3B-Instruct`](https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct)
 
    c. Login with your HuggingFace token:
 

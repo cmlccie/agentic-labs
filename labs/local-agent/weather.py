@@ -14,7 +14,7 @@ import agentic_llm_labs.logging
 
 agentic_llm_labs.logging.colorized_config(level=logging.INFO)
 
-MODEL_NAME = "meta-llama/Llama-3.1-8B-Instruct"
+MODEL_NAME = "meta-llama/Llama-3.2-3B-Instruct"
 SYSTEM_PROMPT = (
     "You are a helpful weather assistant. "
     "Use the provided tools to get weather information. "
@@ -40,10 +40,15 @@ generate = pipeline(
 # Chat loop
 while True:
     user_input = input("\n❯ ").strip()
-    if not user_input.strip():
-        continue
-    if user_input.lower() in ["exit", "quit"]:
-        break
+    match user_input.strip().lower():
+        case "clear":
+            messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+            print("\nConversation history cleared.")
+            continue
+        case "exit" | "quit":
+            break
+        case "":
+            continue
 
     messages.append({"role": "user", "content": user_input})
 
