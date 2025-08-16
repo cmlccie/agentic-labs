@@ -13,14 +13,14 @@ This lab demonstrates a simple local weather agent that uses tools to provide we
 
 LLMs are stateless - they don't remember previous interactions. Every request must include all the context you want the LLM to consider when generating a response.
 
-When using tools, we have to use an iterative process:
+When using tools, we use an iterative process:
 
 1. Send full conversation history and descriptions of available tools to the LLM to generate a response.
-2. LLM determines if it needs additional context and responds with a tool request:
-   1. Agent calls the requested tools.
-   2. Agent adds the tool requests and results to the conversation history.
-3. Repeat (going back to step 1) until LLM provides a response without a tool request.
-4. Send the LLM's response to the user.
+2. If the LLM determines it needs additional context, it responds with a tool request.
+3. The agent calls the requested tools.
+4. The agent adds both the tool request and tool results to the conversation history.
+5. Repeat steps 1-4 until the LLM provides a response without a tool request.
+6. Send the LLM's response to the user.
 
 ## Note on System Requirements
 
@@ -49,13 +49,13 @@ Type `quit` or `exit` to end the conversation or `clear` to clear the conversati
 
 ## What You'll Observe
 
-When you ask about weather in a location, you'll see the agent:
+When you ask about weather in a location, you'll see the agent perform the following steps:
 
-1. **First LLM call**: The model receives your question and decides it needs location coordinates.
-2. **Tool execution**: The agent calls `get_coordinates()` to find the latitude/longitude.
-3. **Second LLM call**: The model receives the coordinates and decides it needs weather data.
-4. **Tool execution**: The agent calls `get_weather()` with the coordinates.
-5. **Final LLM call**: The model receives weather data and formats a human-readable response.
+1. **First LLM call**: The model receives your question, decides it needs coordinates for the location, and returns a `get_coordinates` tool request.
+2. **First tool call**: The agent calls `get_coordinates()` to obtain the latitude/longitude for the location and adds both the tool request and results to the conversation.
+3. **Second LLM call**: The model receives the conversation with the coordinates in the context, decides it needs weather data for the coordinates, and returns a `get_weather` tool request.
+4. **Second tool call**: The agent calls `get_weather()` with the coordinates and adds both the tool request and results to the conversation.
+5. **Final LLM call**: The model receives the conversation with your original question, the coordinates for the location, and the weather data for those coordinates and generates a human-readable response.
 
 Each step adds more context to the conversation, building up the information needed for the final response.
 
@@ -65,31 +65,31 @@ Each step adds more context to the conversation, building up the information nee
 
 Two weather-related tools are available:
 
-- `get_coordinates()`: Uses OpenMeteo's geocoding API to convert location names to coordinates.
-- `get_weather()`: Uses OpenMeteo's forecast API to get weather data for specific coordinates.
+- `get_coordinates()` - Uses OpenMeteo's geocoding API to convert location names to coordinates
+- `get_weather()` - Uses OpenMeteo's forecast API to get weather data for specific coordinates
 
 ### Agent Loop (`weather.py`)
 
 The main script implements the agent pattern using HuggingFace Transformers:
 
-1. **Model Setup**: Loads Llama-3.2-3B-Instruct using the transformers pipeline.
-2. **Template Rendering**: Uses the tokenizer's chat template with tool definitions.
-3. **Tool Request Detection**: Attempts to parse the model's response to determine if it is a JSON tool request.
-4. **Tool Execution**: Uses pattern matching to route tool requests to the correct functions.
-5. **Iterative Processing**: Continues until no more tool calls are needed.
+1. **Model Setup** - Loads Llama-3.2-3B-Instruct using the transformers pipeline
+2. **Template Rendering** - Uses the tokenizer's chat template with tool definitions
+3. **Tool Request Detection** - Attempts to parse the model's response to determine if it is a JSON tool request
+4. **Tool Execution** - Uses pattern matching to route tool requests to the correct functions
+5. **Iterative Processing** - Continues until no more tool calls are needed
 
 ### Key Implementation Details
 
-- **Local Model**: Runs Llama-3.2-3B-Instruct directly using HuggingFace Transformers.
-- **Chat Templates**: Uses the model's built-in chat template with tool support.
-- **Pattern Matching**: Uses Python 3.10+ `match` statements for tool routing.
-- **Message Threading**: Tool requests and results are properly added to maintain conversation context.
+- **Local Model** - Runs Llama-3.2-3B-Instruct directly using HuggingFace Transformers
+- **Chat Templates** - Uses the model's built-in chat template with tool support
+- **Pattern Matching** - Uses Python 3.10+ `match` statements for routing tool requests
+- **Conversation Management** - Adds tool requests and results to the conversation to enrich the context
 
 ## Experiments to Try
 
-1. **Break the chain**: Ask for weather without specifying a location - observe how the LLM handles missing information.
-2. **Multiple locations**: Ask about weather in multiple cities in one request.
-3. **Context building**: Ask follow-up questions about the same location - notice how previous tool results remain in context.
-4. **Model behavior**: Observe how the model decides when to call tools vs. when to provide direct responses.
+1. **Break the chain** - Ask for weather without specifying a location and observe how the LLM handles missing information.
+2. **Multiple locations** - Ask about weather in multiple cities in one request.
+3. **Context building** - Ask follow-up questions about the same location and notice how previous tool results remain in context.
+4. **Model behavior** - Observe how the model decides when to call tools vs. when to provide direct responses.
 
 This lab illustrates how agents coordinate between local LLMs and external tools to create interactive, capable AI systems using modern Python features like structural pattern matching.
