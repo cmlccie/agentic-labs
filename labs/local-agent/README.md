@@ -15,11 +15,11 @@ LLMs are stateless - they don't remember previous interactions. Every request mu
 
 When using tools, we have to use an iterative process:
 
-1. Send full conversation history to the LLM to generate a response.
-2. LLM determines if it needs additional context and responds with a tool call request:
-   1. Agent executes the requested tool calls.
-   2. Agent adds the tool call requests and results to the conversation history.
-3. Repeat (going back to step 1) until LLM provides a response without a tool call request.
+1. Send full conversation history and descriptions of available tools to the LLM to generate a response.
+2. LLM determines if it needs additional context and responds with a tool request:
+   1. Agent calls the requested tools.
+   2. Agent adds the tool requests and results to the conversation history.
+3. Repeat (going back to step 1) until LLM provides a response without a tool request.
 4. Send the LLM's response to the user.
 
 ## Note on System Requirements
@@ -74,8 +74,8 @@ The main script implements the agent pattern using HuggingFace Transformers:
 
 1. **Model Setup**: Loads Llama-3.2-3B-Instruct using the transformers pipeline.
 2. **Template Rendering**: Uses the tokenizer's chat template with tool definitions.
-3. **Tool Call Detection**: Parses JSON responses to detect tool requests.
-4. **Tool Execution**: Uses pattern matching to route tool calls to the correct functions.
+3. **Tool Request Detection**: Attempts to parse the model's response to determine if it is a JSON tool request.
+4. **Tool Execution**: Uses pattern matching to route tool requests to the correct functions.
 5. **Iterative Processing**: Continues until no more tool calls are needed.
 
 ### Key Implementation Details
@@ -83,7 +83,7 @@ The main script implements the agent pattern using HuggingFace Transformers:
 - **Local Model**: Runs Llama-3.2-3B-Instruct directly using HuggingFace Transformers.
 - **Chat Templates**: Uses the model's built-in chat template with tool support.
 - **Pattern Matching**: Uses Python 3.10+ `match` statements for tool routing.
-- **Message Threading**: Tool calls and results are properly added to maintain conversation context.
+- **Message Threading**: Tool requests and results are properly added to maintain conversation context.
 
 ## Experiments to Try
 
