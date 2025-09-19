@@ -68,7 +68,7 @@ Two weather-related tools are available:
 - `get_coordinates()` - Uses OpenMeteo's geocoding API to convert location names to coordinates
 - `get_weather()` - Uses OpenMeteo's forecast API to get weather data for specific coordinates
 
-### Agent Loop (`weather.py`)
+### Agent Code (`weather.py`)
 
 The main script implements the agent pattern using HuggingFace Transformers:
 
