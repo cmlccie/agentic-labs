@@ -20,7 +20,7 @@ When using tools, we use an iterative process:
 3. The agent calls the requested tools.
 4. The agent adds both the tool request and tool results to the conversation history.
 5. Repeat steps 1-4 until the LLM provides a response without a tool request.
-6. Send the LLM's response to the user.
+6. Send the LLM's final response to the user.
 
 ## Note on System Requirements
 
