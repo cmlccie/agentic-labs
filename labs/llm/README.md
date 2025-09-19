@@ -26,7 +26,7 @@ uv run labs/llm/input_tokens.py
 
 Enter the same message and see how your conversation is formatted, tokenized, and turned into the exact input matrix that is fed into the model. This helps you understand the complete preprocessing pipeline from human text to model-ready input.
 
-### 3. Response Lab - Single Generation
+### 3. Response Lab - From Model Input to Generated Output (One-Shot Generation)
 
 **What it does**: Processes tokens through the model to generate a response.
 
@@ -36,7 +36,7 @@ uv run labs/llm/respond.py
 
 Enter a message and watch the complete pipeline in action. You'll see the raw model output including your original message plus the generated response.
 
-### 4. Chat Lab - Conversation Management
+### 4. Chat Lab - Conversation Management (Few-Shot Generation)
 
 **What it does**: Maintains conversation context across multiple exchanges.
 
