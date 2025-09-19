@@ -4,26 +4,14 @@
 
 This is an educational repository for experimenting with LLMs and agentic AI patterns.
 
-- Code samples should run with minimal setup.
-- Code is designed for clarity and educational purposes, not production use.
-- Code structure should be simple, linear, and easy to follow.
-- Use flat, single-file scripts for most labs.
-- Don't add error handling or abstractions unless absolutely necessary.
-- Only use functions and classes when necessary.
-- Focus on practical examples of LLM interactions, tool use, and agentic behavior.
-- Emphasis on using open-source models and libraries.
-- Uses HuggingFace Transformers and other libraries for LLM interactions.
-- Experimentation is encouraged, and users should feel free to modify and extend the code.
+## Learning Labs
 
-## Lab Instructions
+Each directory in `labs/` contains a self-contained lab focused on a specific aspect of working with LLMs and agentic AI patterns. Each lab includes:
 
-When generating lab instructions, follow these guidelines:
+- A `README.md` file with detailed instructions that guide the user through the lab exercises.
+- One or more Python scripts that implement the lab exercises.
 
-- Use concise, clear language.
-- Use active voice.
-- Provide step-by-step instructions.
-- Don't include code from a lab's scripts; if necessary, refer the learner to code in the lab scripts.
-- Use the tell, show, tell method for the top-level README instructions. Tell the user what they will see, walk them through running the code, and then tell them what they just saw.
+## Style Guidelines
 
 ### List Style Guidelines
 
@@ -67,11 +55,6 @@ messages = [
     {"role": "assistant", "content": "model response"}
 ]
 ```
-
-### Terminal IO Consistency
-
-- Use a simple Chevron prompt: `❯ ` to prompt users for input.
-- Handle special commands: `quit`, `exit`, and `clear`.
 
 ## Avoid
 
