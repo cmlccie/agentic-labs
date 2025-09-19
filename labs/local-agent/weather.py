@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Local Weather Agent Lab (Llama-3.1-8B-Instruct, Transformers)."""
+"""Local Weather Agent Lab."""
 
 import json
 import logging
