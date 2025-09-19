@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""LLM Response Lab."""
+"""LLM Chat Lab."""
 
 import torch
 from transformers import AutoTokenizer
