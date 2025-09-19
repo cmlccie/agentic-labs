@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Template Lab."""
+"""LLM Template Lab."""
 
 from transformers import AutoTokenizer
 
@@ -22,5 +22,4 @@ rendered_template = tokenizer.apply_chat_template(
     add_generation_prompt=True,  # Add the generation prompt
 )
 
-print("\nRendered template:")
-print(rendered_template)
+print(f"\nRendered template:\n{rendered_template}")
