@@ -2,7 +2,7 @@
 
 ## What You'll Learn
 
-This lab demonstrates the fundamental pipeline that transforms human conversations into LLM responses. You'll observe how messages are formatted, tokenized, and processed by language models, and discover why LLMs are stateless - requiring the full conversation history each time.
+This lab demonstrates the fundamental pipeline that transforms human conversations into LLM responses. You'll observe how messages are formatted, tokenized, and processed by language models, and discover why LLMs are stateless (require the full conversation history for each generation request).
 
 ## The Four-Step Journey
 
@@ -51,15 +51,17 @@ Have a conversation with the model. Type `quit` or `exit` to end or `clear` to c
 You've witnessed the complete LLM pipeline:
 
 1. **Messages** → **Formatted Template** (human conversation becomes structured input)
-2. **Template** → **Token IDs** (text becomes numbers the model understands)
-3. **Tokens** → **Model Processing** → **Response** (neural network generates new tokens)
-4. **Stateless Nature** (each generation requires sending the full conversation history)
+2. **Template** → **Input Tokens** → **Input Token Embeddings** (text becomes numbers the model understands)
+3. **Input Token Embeddings** → **Model Processing** → **Output Tokens** (neural network generates new tokens)
+4. **Output Tokens** → **Decoded to a Response Message** (human readable text, image, etc.)
+
+**Stateless Nature:** Each generation _request_ contains the full conversation history (context) for the model to consider when generating a response.
 
 This same pipeline runs every time you interact with ChatGPT, Claude, or any other LLM - understanding it helps you work more effectively with AI systems.
 
 ## Key Insights
 
-- **LLMs are stateless**: They don't remember previous conversations
-- **Context window matters**: Longer conversations = more processing time and cost
-- **Templates vary**: Different models format conversations differently
+- **LLMs are stateless**: They don't remember previous conversations.
+- **Context window matters**: Longer conversations = more processing time and cost.
+- **Templates vary**: Different models format conversations differently.
 - **Tokens are everything**: Understanding tokenization helps optimize prompts and system designs.
