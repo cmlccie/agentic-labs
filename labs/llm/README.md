@@ -16,15 +16,15 @@ uv run labs/llm/template.py
 
 Enter any message and see how it gets wrapped with special tokens and system prompts. This is the first step in making your text "speak" the model's language.
 
-### 2. Tokens Lab - Text to Numbers
+### 2. Input Tokens Lab - From Messages to Model Input
 
-**What it does**: Converts the formatted text into numerical tokens.
+**What it does**: Shows the full transformation from a conversation (`messages`) to the input array (token matrix) that the model receives for generation.
 
 ```bash
-uv run labs/llm/tokens.py
+uv run labs/llm/input_tokens.py
 ```
 
-Enter the same message and observe how text becomes a list of numbers. LLMs don't understand words - they understand these token IDs.
+Enter the same message and see how your conversation is formatted, tokenized, and turned into the exact input matrix that is fed into the model. This helps you understand the complete preprocessing pipeline from human text to model-ready input.
 
 ### 3. Response Lab - Single Generation
 
