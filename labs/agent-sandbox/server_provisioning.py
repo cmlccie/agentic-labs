@@ -109,7 +109,7 @@ def provision_vlan(
 
 def main():
     # mcp.run(transport="stdio")
-    mcp.run(transport="streamable-http", mount_path="mcp")
+    mcp.run(transport="streamable-http")
 
 
 if __name__ == "__main__":
