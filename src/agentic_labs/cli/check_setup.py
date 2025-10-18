@@ -1,4 +1,4 @@
-"""Check setup command for Agentic LLM Labs CLI."""
+"""Check setup command for Agentic Labs CLI."""
 
 import logging
 import shutil
@@ -11,7 +11,7 @@ import typer
 from huggingface_hub import whoami
 from huggingface_hub.errors import HfHubHTTPError
 
-import agentic_llm_labs.logging
+import agentic_labs.logging
 
 # --------------------------------------------------------------------------------------
 # CLI Command
@@ -39,7 +39,7 @@ def check_setup_cmd(
     """Check that the environment is properly set up for the labs.
 
     This command verifies that users have correctly and completely set up their
-    environment for the Agentic LLM Labs.
+    environment for the Agentic Labs.
     """
     return check_setup(verbose=verbose, fix=fix)
 
@@ -56,15 +56,15 @@ def check_setup(
     """Check that the environment is properly set up for the labs.
 
     This function verifies that users have correctly and completely set up their
-    environment for the Agentic LLM Labs.
+    environment for the Agentic Labs.
     """
     # Configure logging
     if verbose:
-        agentic_llm_labs.logging.fancy_config(level=logging.INFO)
+        agentic_labs.logging.fancy_config(level=logging.INFO)
     else:
-        agentic_llm_labs.logging.colorized_config(level=logging.WARNING)
+        agentic_labs.logging.colorized_config(level=logging.WARNING)
 
-    click.echo("🔍 Checking Agentic LLM Labs environment setup...\n")
+    click.echo("🔍 Checking Agentic Labs environment setup...\n")
 
     checks = [
         _check_uv_installed,

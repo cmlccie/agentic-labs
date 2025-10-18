@@ -1,4 +1,4 @@
-"""Main CLI application for Agentic LLM Labs."""
+"""Main CLI application for Agentic Labs."""
 
 import typer
 
@@ -6,8 +6,8 @@ from .check_setup import check_setup_cmd
 from .download_models import download_models_cmd
 
 cli = typer.Typer(
-    name="agentic-llm-labs",
-    help="CLI tools for Agentic LLM Labs",
+    name="agentic-labs",
+    help="CLI tools for Agentic Labs",
 )
 
 # Register commands

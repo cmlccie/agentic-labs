@@ -1,4 +1,4 @@
-"""Download models command for Agentic LLM Labs CLI."""
+"""Download models command for Agentic Labs CLI."""
 
 import logging
 from pathlib import Path
@@ -9,8 +9,8 @@ import typer
 from huggingface_hub import snapshot_download
 from huggingface_hub.errors import HfHubHTTPError
 
-import agentic_llm_labs.logging
-from agentic_llm_labs import LAB_MODELS
+import agentic_labs.logging
+from agentic_labs import LAB_MODELS
 
 # --------------------------------------------------------------------------------------
 # CLI Command
@@ -53,7 +53,7 @@ def download_models_cmd(
 ) -> None:
     """Download models from HuggingFace Hub for use in the labs.
 
-    This command downloads the models used by the Agentic LLM Labs to your local
+    This command downloads the models used by the Agentic Labs to your local
     machine. By default, it downloads all models used in the repository labs.
     """
     return download_models(
@@ -77,14 +77,14 @@ def download_models(
 ) -> None:
     """Download models from HuggingFace Hub for use in the labs.
 
-    This command downloads the models used by the Agentic LLM Labs to your local
+    This command downloads the models used by the Agentic Labs to your local
     machine. By default, it downloads all models used in the repository labs.
     """
     # Configure logging
     if verbose:
-        agentic_llm_labs.logging.fancy_config(level=logging.INFO)
+        agentic_labs.logging.fancy_config(level=logging.INFO)
     else:
-        agentic_llm_labs.logging.colorized_config(level=logging.WARNING)
+        agentic_labs.logging.colorized_config(level=logging.WARNING)
 
     # Use default models if none specified
     models_to_download = models if models else LAB_MODELS

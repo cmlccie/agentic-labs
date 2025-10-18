@@ -1,4 +1,4 @@
-# Agentic LLM Labs - Copilot Instructions
+# Agentic Labs - Copilot Instructions
 
 ## Project Overview
 

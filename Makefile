@@ -1,4 +1,4 @@
-# Makefile for Agentic LLM Labs - Developer (Contributor) Operations
+# Makefile for Agentic Labs - Developer (Contributor) Operations
 # This Makefile contains targets for common developer operations.
 # For user operations (running labs), see the lab README files.
 

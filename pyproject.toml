@@ -1,5 +1,5 @@
 [project]
-name = "agentic-llm-labs"
+name = "agentic-labs"
 version = "0.1.0"
 description = "Simple labs for experimenting with LLMs and Agentic AI."
 authors = [
@@ -20,7 +20,7 @@ dependencies = [
 ]
 
 [project.scripts]
-agentic-llm-labs = "agentic_llm_labs.cli.main:cli"
+agentic-labs = "agentic_llm_labs.cli.main:cli"
 
 
 [dependency-groups]

@@ -1,4 +1,4 @@
-# Agentic LLM Labs
+# Agentic Labs
 
 This repository contains simple hands-on labs to help you get started interacting with LLMs and understanding Agentic AI (AI Agent) protocols and components.
 
@@ -14,8 +14,8 @@ This repository contains simple hands-on labs to help you get started interactin
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/cmlccie/agentic-llm-labs
-   cd agentic-llm-labs
+   git clone https://github.com/cmlccie/agentic-labs
+   cd agentic-labs
    ```
 
 2. Install [`uv`](https://docs.astral.sh/uv/) (if not already installed):
@@ -48,13 +48,13 @@ This repository contains simple hands-on labs to help you get started interactin
 5. Check your environment setup:
 
    ```sh
-   uv agentic-llm-labs check-setup
+   uv agentic-labs check-setup
    ```
 
 6. Download the LLM models used in the labs:
 
    ```sh
-   uv run agentic-llm-labs download-models
+   uv run agentic-labs download-models
    ```
 
 ## Usage

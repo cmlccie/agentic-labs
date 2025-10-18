@@ -1,4 +1,4 @@
-"""Agentic LLM Labs."""
+"""Agentic Labs."""
 
 LAB_MODELS = [
     "meta-llama/Llama-3.2-1B-Instruct",
