@@ -6,11 +6,13 @@ on:
       - main
     paths:
       - "labs/weather-agent/weather-mcp-server/**"
+      - ".github/workflows/build-weather-mcp-server.yml"
   pull_request:
     branches:
       - main
     paths:
       - "labs/weather-agent/weather-mcp-server/**"
+      - ".github/workflows/build-weather-mcp-server.yml"
   release:
     types: [published]
 
