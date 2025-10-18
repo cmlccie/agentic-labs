@@ -1,3 +1,11 @@
 {
-  "cSpell.words": ["printoptions", "tablefmt"]
+  "cSpell.words": [
+    "meteo",
+    "openmeteo",
+    "printoptions",
+    "tablefmt",
+    "timeformat",
+    "typer",
+    "unixtime"
+  ]
 }

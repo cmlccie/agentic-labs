@@ -60,6 +60,14 @@ messages = [
 
 - Don't use `pip install` - always use `uv sync`.
 
+## User Tools
+
+- The repository includes command-line interface (CLI) tool contained in the `agentic_llm_labs` package for user interaction.
+- Use `typer` for command-line interfaces (CLIs).
+- Organize the CLI code in the `agentic_llm_labs.cli` package.
+- Organize CLI commands under a main `cli` Typer app instance contained in `agentic_llm_labs.cli.main`.
+- Each CLI command should be defined in its own module within the `agentic_llm_labs.cli` package.
+
 ## Developer Tools
 
 ### Makefile
