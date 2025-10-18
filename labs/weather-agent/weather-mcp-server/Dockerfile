@@ -5,12 +5,12 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+COPY weather_mcp_server.py .
+RUN chmod +x weather_mcp_server.py
+
 RUN adduser -D -s /bin/sh appuser
 RUN chown -R appuser:appuser /app
 USER appuser
-
-COPY weather_mcp_server.py .
-RUN chmod +x weather_mcp_server.py
 
 # Expose port 8000 for HTTP transport (when using streamable-http mode)
 EXPOSE 8000

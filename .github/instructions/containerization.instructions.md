@@ -17,15 +17,16 @@ applyTo: "**/Dockerfile"
 - Set working directory to `/app`
 - Copy `requirements.txt` first to leverage Docker layer caching
 - Install dependencies before copying application code
-- Create non-root user and set ownership before copying application files
-- Make scripts executable with `RUN chmod +x <script>`
+- Copy application files and set permissions while still root user
+- Create non-root user and set ownership after file operations
+- Make scripts executable with `RUN chmod +x <script>` before switching users
 - Use `ENTRYPOINT` for the main command and `CMD` for default arguments
 - When using executable Python scripts with shebang, ENTRYPOINT can reference the script directly
 
 ### Security & Operations
 
 - Don't run as root user when possible - create a non-root user and switch to it
-- Create user and set ownership before copying application files for better security
+- Set file permissions before switching to non-root user to avoid permission errors
 - Use `--no-cache-dir` with pip to reduce image size
 - Expose only necessary ports
 - Include health checks when appropriate
@@ -47,13 +48,14 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy and set permissions while still root
+COPY <script_name>.py .
+RUN chmod +x <script_name>.py
+
+# Create non-root user and set ownership
 RUN adduser -D -s /bin/sh appuser
 RUN chown -R appuser:appuser /app
 USER appuser
-
-COPY <script_name>.py .
-
-RUN chmod +x <script_name>.py
 
 # Expose port if needed (e.g., for HTTP services)
 EXPOSE 8000
