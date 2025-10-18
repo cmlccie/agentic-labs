@@ -45,20 +45,17 @@ This repository contains simple hands-on labs to help you get started interactin
    uv run huggingface-cli login
    ```
 
-5. Download the required models:
+5. Check your environment setup:
 
    ```sh
-   # Download all models used in the labs (optimized for lab usage)
-   uv run agentic-llm-labs
-
-   # Or download specific models
-   uv run agentic-llm-labs -m meta-llama/Llama-3.2-1B-Instruct
-
-   # Download with verbose output
-   uv run agentic-llm-labs --verbose
+   uv agentic-llm-labs check-setup
    ```
 
-   > **Note:** The download is optimized to exclude unnecessary files (like `original/` PyTorch files) and focuses on the `.safetensors` files and configurations needed for the labs.
+6. Download the LLM models used in the labs:
+
+   ```sh
+   uv run agentic-llm-labs download-models
+   ```
 
 ## Usage
 
@@ -68,39 +65,4 @@ _Example:_
 
 ```sh
 uv run labs/llm/chat.py
-```
-
-## CLI Tools
-
-The repository includes a CLI tool for common tasks:
-
-### Download Models
-
-Download all models used in the labs:
-
-```sh
-uv run agentic-llm-labs
-```
-
-**Options:**
-
-- `--model, -m`: Specify specific models to download (can be used multiple times)
-- `--cache-dir, -c`: Custom cache directory (defaults to HuggingFace cache)
-- `--force, -f`: Force re-download even if models are already cached
-- `--verbose, -v`: Enable verbose logging
-
-**Examples:**
-
-```sh
-# Download all default models
-uv run agentic-llm-labs
-
-# Download specific models
-uv run agentic-llm-labs -m meta-llama/Llama-3.2-1B-Instruct -m meta-llama/Llama-3.2-3B-Instruct
-
-# Download with verbose output
-uv run agentic-llm-labs --verbose
-
-# Force re-download to custom directory
-uv run agentic-llm-labs --force --cache-dir ./models
 ```
