@@ -15,5 +15,5 @@ USER appuser
 # Expose port 8000 for HTTP transport (when using streamable-http mode)
 EXPOSE 8000
 
-ENTRYPOINT ["weather_mcp_server.py"]
+ENTRYPOINT ["/app/weather_mcp_server.py"]
 CMD ["stdio"]
