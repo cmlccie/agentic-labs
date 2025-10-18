@@ -1,0 +1,6 @@
+# Ignore all files
+*
+# Explicitly include only what's needed
+!Dockerfile
+!requirements.txt
+!weather_mcp_server.py

@@ -17,16 +17,19 @@ applyTo: "**/Dockerfile"
 - Set working directory to `/app`
 - Copy `requirements.txt` first to leverage Docker layer caching
 - Install dependencies before copying application code
+- Create non-root user and set ownership before copying application files
 - Make scripts executable with `RUN chmod +x <script>`
 - Use `ENTRYPOINT` for the main command and `CMD` for default arguments
+- When using executable Python scripts with shebang, ENTRYPOINT can reference the script directly
 
 ### Security & Operations
 
-- Don't run as root user when possible
+- Don't run as root user when possible - create a non-root user and switch to it
+- Create user and set ownership before copying application files for better security
 - Use `--no-cache-dir` with pip to reduce image size
 - Expose only necessary ports
 - Include health checks when appropriate
-- Use `.dockerignore` to exclude unnecessary files
+- Use `.dockerignore` with allowlist approach (ignore all `*`, then explicitly include needed files)
 
 ### Dependencies
 
@@ -37,29 +40,37 @@ applyTo: "**/Dockerfile"
 ## Example Dockerfile Pattern
 
 ```dockerfile
-# Use Python 3.13 with Alpine Linux for a lightweight image
 FROM python:3.13-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Copy requirements file
 COPY requirements.txt .
-
-# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the application script
+RUN adduser -D -s /bin/sh appuser
+RUN chown -R appuser:appuser /app
+USER appuser
+
 COPY <script_name>.py .
 
-# Make the script executable
 RUN chmod +x <script_name>.py
 
 # Expose port if needed (e.g., for HTTP services)
 EXPOSE 8000
 
-# Set the entry point to run the application
-# Default to stdio mode, but can be overridden
-ENTRYPOINT ["python", "<script_name>.py"]
+ENTRYPOINT ["<script_name>.py"]
 CMD ["<default_arg>"]
+```
+
+## Example .dockerignore Pattern
+
+Use an allowlist approach for maximum security and minimal image size:
+
+```ignore
+# Ignore all files
+*
+# Explicitly include only what's needed
+!Dockerfile
+!requirements.txt
+!<script_name>.py
 ```
