@@ -59,3 +59,13 @@ messages = [
 ## Avoid
 
 - Don't use `pip install` - always use `uv sync`.
+
+## Developer Tools
+
+### Makefile
+
+The `Makefile` in the repository root provides common developer (contributor) operations. Use `make help` to see all available targets and their descriptions.
+
+The Makefile is for **developer (contributor) operations only**. User operations (running labs) should follow the instructions in lab README files using `uv run` commands.
+
+When adding new development tools or changing project structure, update the Makefile accordingly. The Makefile uses a dynamic help system - add new targets with `## Description` comments to automatically include them in the help output.
