@@ -32,7 +32,7 @@ applyTo: "labs/**/*.py"
 
 - Supporting code must support the main lab code by providing utilities that make the lab code cleaner and easier to understand.
 - Supporting code should be used rarely, and only when it makes the lab code significantly clearer.
-- Supporting code should be placed in `src/agentic_llm_labs/`.
+- Supporting code should be placed in `src/agentic_labs/`.
 - Supporting code may not implement core lab functionality.
 
 ## Avoid

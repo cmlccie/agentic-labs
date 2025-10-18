@@ -31,11 +31,11 @@ Each directory in `labs/` contains a self-contained lab focused on a specific as
 
 ### Code Organization
 
-- Shared utilities in `src/agentic_llm_labs/` (installable package).
+- Shared utilities in `src/agentic_labs/` (installable package).
 - Executable labs in `labs/` subdirectories.
 - Each lab has its own README with specific instructions.
 
-### Logging System (`src/agentic_llm_labs/logging.py`)
+### Logging System (`src/agentic_labs/logging.py`)
 
 - Three logging modes:
   - `colorized_config()` - Simple colored output without timestamps.
@@ -62,11 +62,11 @@ messages = [
 
 ## User Tools
 
-- The repository includes command-line interface (CLI) tool contained in the `agentic_llm_labs` package for user interaction.
+- The repository includes command-line interface (CLI) tool contained in the `agentic_labs` package for user interaction.
 - Use `typer` for command-line interfaces (CLIs).
-- Organize the CLI code in the `agentic_llm_labs.cli` package.
-- Organize CLI commands under a main `cli` Typer app instance contained in `agentic_llm_labs.cli.main`.
-- Each CLI command should be defined in its own module within the `agentic_llm_labs.cli` package.
+- Organize the CLI code in the `agentic_labs.cli` package.
+- Organize CLI commands under a main `cli` Typer app instance contained in `agentic_labs.cli.main`.
+- Each CLI command should be defined in its own module within the `agentic_labs.cli` package.
 
 ## Developer Tools
 

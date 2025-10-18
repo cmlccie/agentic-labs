@@ -10,9 +10,9 @@ from tools import get_coordinates, get_weather
 from transformers import AutoTokenizer
 from transformers.pipelines import pipeline
 
-import agentic_llm_labs.logging
+import agentic_labs.logging
 
-agentic_llm_labs.logging.colorized_config(level=logging.INFO)
+agentic_labs.logging.colorized_config(level=logging.INFO)
 
 MODEL_NAME = "meta-llama/Llama-3.2-3B-Instruct"
 SYSTEM_PROMPT = (

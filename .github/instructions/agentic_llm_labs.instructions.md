@@ -1,5 +1,5 @@
 ---
-applyTo: "src/agentic_llm_labs/**/*.py"
+applyTo: "src/agentic_labs/**/*.py"
 ---
 
 - Use functional programming principles.
