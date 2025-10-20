@@ -27,7 +27,7 @@ source = { editable = "." }
 dependencies = [
     { name = "accelerate" },
     { name = "click" },
-    { name = "huggingface-hub", extra = ["cli"] },
+    { name = "huggingface-hub", extra = ["cli", "hf-xet"] },
     { name = "openai" },
     { name = "requests" },
     { name = "tabulate" },
@@ -51,7 +51,7 @@ weather-mcp-server = [
 requires-dist = [
     { name = "accelerate", specifier = ">=0.20.0" },
     { name = "click", specifier = ">=8.2.1" },
-    { name = "huggingface-hub", extras = ["cli"], specifier = ">=0.33.4" },
+    { name = "huggingface-hub", extras = ["cli", "hf-xet"], specifier = ">=0.33.4" },
     { name = "openai" },
     { name = "requests", specifier = ">=2.32.3" },
     { name = "tabulate", specifier = ">=0.9.0" },
@@ -308,6 +308,9 @@ wheels = [
 [package.optional-dependencies]
 cli = [
     { name = "inquirerpy" },
+]
+hf-xet = [
+    { name = "hf-xet" },
 ]
 
 [[package]]
