@@ -18,10 +18,18 @@ This repository contains simple hands-on labs to help you get started interactin
    cd agentic-labs
    ```
 
-2. Install [`uv`](https://docs.astral.sh/uv/) (if not already installed):
+2. Install [`uv`](https://docs.astral.sh/uv/getting-started/installation/) (if not already installed):
+
+   macOS and Linux:
 
    ```sh
    curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+
+   Windows:
+
+   ```powershell
+   powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
    ```
 
 3. Install dependencies:
@@ -48,7 +56,7 @@ This repository contains simple hands-on labs to help you get started interactin
 5. Check your environment setup:
 
    ```sh
-   uv agentic-labs check-setup
+   uv run agentic-labs check-setup
    ```
 
 6. Download the LLM models used in the labs:
