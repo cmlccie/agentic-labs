@@ -50,7 +50,7 @@ This repository contains simple hands-on labs to help you get started interactin
    c. Login with your HuggingFace token:
 
    ```sh
-   uv run huggingface-cli login
+   uv run hf auth login
    ```
 
 5. Check your environment setup:
