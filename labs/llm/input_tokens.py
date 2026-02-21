@@ -10,6 +10,11 @@ MODEL_NAME = "meta-llama/Llama-3.2-1B-Instruct"
 SYSTEM_PROMPT = "You are a helpful assistant."
 
 
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+model = AutoModel.from_pretrained(MODEL_NAME)
+
+
+# Get user input and construct messages
 user_input = input("\n❯ ").strip()
 
 messages = [
@@ -17,9 +22,8 @@ messages = [
     {"role": "user", "content": user_input},
 ]
 
-tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-model = AutoModel.from_pretrained(MODEL_NAME)
 
+# Render the chat template to get the full input string for the model
 rendered_template = tokenizer.apply_chat_template(
     messages,
     tokenize=False,  # Return as tokens
@@ -29,6 +33,7 @@ rendered_template = tokenizer.apply_chat_template(
 print(f"\nRendered template:\n{rendered_template}")
 
 
+# Get the token embeddings for the rendered template
 tokens = tokenizer.tokenize(rendered_template)
 token_ids = tokenizer.convert_tokens_to_ids(tokens)
 token_embeddings = (
@@ -36,6 +41,7 @@ token_embeddings = (
 )
 
 
+# Print the token table
 token_table = zip(tokens, token_ids, token_embeddings, strict=True)
 np.set_printoptions(precision=4, suppress=True)
 print(
@@ -45,6 +51,5 @@ print(
         tablefmt="pretty",
     )
 )
-
 
 print(f"\nTotal Input Tokens: {len(tokens)}")

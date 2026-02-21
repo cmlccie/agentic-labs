@@ -19,6 +19,7 @@ SYSTEM_PROMPT = "You are a helpful assistant."
 MAX_NEW_TOKENS = 256
 
 
+# Create the text generation pipeline
 generate = pipeline(
     "text-generation",
     model=MODEL_NAME,
@@ -26,6 +27,8 @@ generate = pipeline(
     max_new_tokens=MAX_NEW_TOKENS,
 )
 
+
+# Get user input and construct messages
 user_input = input("\n❯ ").strip()
 
 messages = [
@@ -33,6 +36,7 @@ messages = [
     {"role": "user", "content": user_input},
 ]
 
-output = generate(messages)
 
+# Generate and print the response
+output = generate(messages)
 pprint(output)

@@ -7,6 +7,10 @@ MODEL_NAME = "meta-llama/Llama-3.2-1B-Instruct"
 SYSTEM_PROMPT = "You are a helpful assistant."
 
 
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+
+
+# Get user input and construct messages
 user_input = input("\n❯ ").strip()
 
 messages = [
@@ -14,8 +18,8 @@ messages = [
     {"role": "user", "content": user_input},
 ]
 
-tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 
+# Render the chat template to get the full input string for the model
 rendered_template = tokenizer.apply_chat_template(
     messages,
     tokenize=False,  # Return as string, not tokens
