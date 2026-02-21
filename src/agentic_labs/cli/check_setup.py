@@ -287,16 +287,16 @@ def _check_huggingface_token(
     """Check if HuggingFace CLI is configured with a valid token."""
     details = []
 
-    # Check if huggingface-cli is available
-    hf_cli_path = shutil.which("huggingface-cli")
+    # Check if hf (or legacy huggingface-cli) is available
+    hf_cli_path = shutil.which("hf") or shutil.which("huggingface-cli")
     if not hf_cli_path:
-        message = "huggingface-cli not found in PATH"
+        message = "HuggingFace CLI (hf) not found in PATH"
         details.append("HuggingFace CLI should be installed with project dependencies")
         details.append("Try running: uv sync")
         return False, message, details
 
     if verbose:
-        details.append(f"Found huggingface-cli at: {hf_cli_path}")
+        details.append(f"Found HuggingFace CLI at: {hf_cli_path}")
 
     # Check if user is logged in by trying to get user info
     try:
@@ -305,12 +305,10 @@ def _check_huggingface_token(
             message = "HuggingFace token not configured"
             if fix:
                 details.append("🔧 Please log in to HuggingFace manually:")
-                details.append("   uv run huggingface-cli login")
+                details.append("   uv run hf login")
                 details.append("   Then paste your HuggingFace token when prompted")
             else:
-                details.append(
-                    "Run 'uv run huggingface-cli login' to configure your token"
-                )
+                details.append("Run 'uv run hf login' to configure your token")
             return False, message, details
 
         # Successfully got user info
@@ -328,12 +326,12 @@ def _check_huggingface_token(
             message = "HuggingFace token is invalid or expired"
             if fix:
                 details.append("🔧 Please log in to HuggingFace again:")
-                details.append("   uv run huggingface-cli login")
+                details.append("   uv run hf login")
                 details.append(
                     "   Make sure to use a valid token with appropriate permissions"
                 )
             else:
-                details.append("Run 'uv run huggingface-cli login' with a valid token")
+                details.append("Run 'uv run hf login' with a valid token")
         else:
             message = f"Error checking HuggingFace authentication: {e}"
             if verbose:
