@@ -2,46 +2,116 @@
 name = "agentic-labs"
 version = "0.1.0"
 description = "Simple labs for experimenting with LLMs and Agentic AI."
-authors = [
-    {name = "Chris Lunsford", email = "cm@lunsford.io"}
-]
+authors = [{name = "Chris Lunsford", email = "cm@lunsford.io"}]
 readme = "README.md"
-requires-python = ">=3.13"
+
+requires-python = ">=3.12,<3.13"
+
 dependencies = [
     "accelerate>=0.20.0",
     "click>=8.2.1",
-    "huggingface-hub[cli,hf_xet]>=0.33.4",
-    "openai",
+    "huggingface-hub[hf_xet]>=0.33.4",
+    "langchain-openai>=1.1.10",
+    "langgraph>=1.0.9",
+    "mcp[cli]>=1.26.0",
+    "openai>=2.21.0",
+    "pydantic>=2.12.5",
+    "pydantic-ai-slim[a2a,cli,mcp,openai]>=1.62.0",
     "requests>=2.32.3",
     "tabulate>=0.9.0",
-    "torch>=2.0.0",
     "transformers>=4.40.0",
     "typer>=0.19.2",
 ]
+
+
+# -----------------------------------------------------------------------------
+# Scripts
+# -----------------------------------------------------------------------------
 
 [project.scripts]
 agentic-labs = "agentic_labs.cli.main:cli"
 
 
+# -----------------------------------------------------------------------------
+# Dependency Groups
+# -----------------------------------------------------------------------------
+
 [dependency-groups]
 dev = [
-    "ipython>=9.5.0",
+  "ipython>=9.5.0",
+  "ruff>=0.15.2",
 ]
 
-weather_mcp_server = [
-    "mcp[cli]>=1.16.0",
-    "pandas>=2.3.3",
-    "pydantic>=2.11.7",
-    "requests>=2.32.3",
+
+# -----------------------------------------------------------------------------
+# Optional Dependencies
+# -----------------------------------------------------------------------------
+
+[project.optional-dependencies]
+default = ["torch>=2.0.0", "llama-cpp-python[server]>=0.3.2"]
+metal = ["torch>=2.0.0", "llama-cpp-python[server]>=0.3.2"]
+cu121 = ["torch>=2.0.0", "llama-cpp-python[server]>=0.3.2"]
+cu124 = ["torch>=2.0.0", "llama-cpp-python[server]>=0.3.2"]
+
+
+# -----------------------------------------------------------------------------
+# Sources
+# -----------------------------------------------------------------------------
+
+[tool.uv]
+conflicts = [
+  [
+    { extra = "default" },
+    { extra = "metal" },
+    { extra = "cu121" },
+    { extra = "cu124" },
+  ]
 ]
 
 [tool.uv.sources]
 torch = [
-  { index = "pytorch-cu130", marker = "sys_platform == 'linux'" },
+  { index = "pytorch-cpu", extra = "default" },
+  { index = "pytorch-cpu", extra = "metal" },
+  { index = "pytorch-cu121", extra = "cu121" },
+  { index = "pytorch-cu124", extra = "cu124" },
 ]
-torchvision = [
-  { index = "pytorch-cu130", marker = "sys_platform == 'linux'" },
+
+llama-cpp-python = [
+  { index = "llama-cpp-python-cpu", extra = "default" },
+  { index = "llama-cpp-python-metal", extra = "metal" },
+  { index = "llama-cpp-python-cu121", extra = "cu121" },
+  { index = "llama-cpp-python-cu124", extra = "cu124" },
 ]
+
+
+# -----------------------------------------------------------------------------
+# Indexes
+# -----------------------------------------------------------------------------
+
+# llama-cpp-python
+
+[[tool.uv.index]]
+name = "llama-cpp-python-cpu"
+url = "https://abetlen.github.io/llama-cpp-python/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "llama-cpp-python-metal"
+url = "https://abetlen.github.io/llama-cpp-python/whl/metal"
+explicit = true
+
+[[tool.uv.index]]
+name = "llama-cpp-python-cu121"
+url = "https://abetlen.github.io/llama-cpp-python/whl/cu121"
+explicit = true
+
+[[tool.uv.index]]
+name = "llama-cpp-python-cu124"
+url = "https://abetlen.github.io/llama-cpp-python/whl/cu124"
+explicit = true
+
+
+# pytorch
 
 [[tool.uv.index]]
 name = "pytorch-cpu"
@@ -49,13 +119,28 @@ url = "https://download.pytorch.org/whl/cpu"
 explicit = true
 
 [[tool.uv.index]]
-name = "pytorch-cu130"
-url = "https://download.pytorch.org/whl/cu130"
+name = "pytorch-cu121"
+url = "https://download.pytorch.org/whl/cu121"
 explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+
+# --------------------------------------------------------------------------------------
+# Build System
+# --------------------------------------------------------------------------------------
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+
+# --------------------------------------------------------------------------------------
+# Tool Configurations
+# --------------------------------------------------------------------------------------
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/agentic_labs"]

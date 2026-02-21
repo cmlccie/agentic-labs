@@ -32,10 +32,13 @@ This repository contains simple hands-on labs to help you get started interactin
    powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
    ```
 
-3. Install dependencies:
+3. Install dependencies using the `extra` option appropriate for your system:
 
    ```sh
-   uv sync
+   uv sync --extra metal      # Apple Silicon Macs
+   uv sync --extra cu124      # Systems w/ NVIDIA GPUs supporting CUDA 12.4
+   uv sync --extra cu121      # Systems w/ NVIDIA GPUs supporting CUDA 12.1
+   uv sync --extra default    # All other systems
    ```
 
 4. Set up HuggingFace access:
