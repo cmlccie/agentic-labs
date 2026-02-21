@@ -31,7 +31,9 @@ print(f"\nRendered template:\n{rendered_template}")
 
 tokens = tokenizer.tokenize(rendered_template)
 token_ids = tokenizer.convert_tokens_to_ids(tokens)
-token_embeddings = model.get_input_embeddings()(torch.tensor(token_ids)).data.numpy()
+token_embeddings = (
+    model.get_input_embeddings()(torch.tensor(token_ids)).to(torch.float32).data.numpy()
+)
 
 
 token_table = zip(tokens, token_ids, token_embeddings, strict=True)
