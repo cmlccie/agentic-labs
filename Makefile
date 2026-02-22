@@ -11,12 +11,12 @@ help: ## Show this help message
 setup: ## Reset and setup development environment
 	@echo "Setting up development environment..."
 	rm -rf .venv
-	uv sync --all-groups
+	uv sync --all-groups --extra metal
 	@echo "Development environment ready!"
 
 upgrade: ## Upgrade dependencies to latest versions
 	@echo "Upgrading dependencies..."
-	uv sync --upgrade --all-groups
+	uv sync --upgrade --all-groups --extra metal
 	@echo "Dependencies upgraded!"
 
 clean: ## Remove temporary and build artifacts
