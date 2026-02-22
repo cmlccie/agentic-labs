@@ -1,133 +1,56 @@
 """Download models command for Agentic Labs CLI."""
 
 import logging
-from pathlib import Path
-from typing import Annotated, List, Optional
 
 import click
 import typer
 from huggingface_hub import snapshot_download
 from huggingface_hub.errors import HfHubHTTPError
 
-import agentic_labs.logging
 from agentic_labs import LAB_MODELS
+
+DEFAULT_IGNORE_PATTERNS = [
+    "original/*",
+    "*.bin",
+]
+
+DEFAULT_ALLOW_PATTERNS = [
+    "*.safetensors*",
+    "*.json",
+    "tokenizer*",
+    "*.txt",
+    "*.md",
+    ".gitattributes",
+    "generation_config.json",
+]
 
 # --------------------------------------------------------------------------------------
 # CLI Command
 # --------------------------------------------------------------------------------------
 
 
-def download_models_cmd(
-    models: Annotated[
-        Optional[List[str]],
-        typer.Option(
-            "--model",
-            "-m",
-            help="Specify models to download. Can be used multiple times. If not specified, downloads default models used in labs.",
-        ),
-    ] = None,
-    cache_dir: Annotated[
-        Optional[Path],
-        typer.Option(
-            "--cache-dir",
-            "-c",
-            help="Directory to store downloaded models. Defaults to HuggingFace cache.",
-        ),
-    ] = None,
-    force_download: Annotated[
-        bool,
-        typer.Option(
-            "--force",
-            "-f",
-            help="Force re-download even if models are already cached.",
-        ),
-    ] = False,
-    verbose: Annotated[
-        bool,
-        typer.Option(
-            "--verbose",
-            "-v",
-            help="Enable verbose logging.",
-        ),
-    ] = False,
-) -> None:
+def download_models() -> None:
     """Download models from HuggingFace Hub for use in the labs.
 
     This command downloads the models used by the Agentic Labs to your local
-    machine. By default, it downloads all models used in the repository labs.
+    machine.
     """
-    return download_models(
-        models=models,
-        cache_dir=cache_dir,
-        force_download=force_download,
-        verbose=verbose,
-    )
-
-
-# --------------------------------------------------------------------------------------
-# Functions
-# --------------------------------------------------------------------------------------
-
-
-def download_models(
-    models: Optional[List[str]] = None,
-    cache_dir: Optional[Path] = None,
-    force_download: bool = False,
-    verbose: bool = False,
-) -> None:
-    """Download models from HuggingFace Hub for use in the labs.
-
-    This command downloads the models used by the Agentic Labs to your local
-    machine. By default, it downloads all models used in the repository labs.
-    """
-    # Configure logging
-    if verbose:
-        agentic_labs.logging.fancy_config(level=logging.INFO)
-    else:
-        agentic_labs.logging.colorized_config(level=logging.WARNING)
-
-    # Use default models if none specified
-    models_to_download = models if models else LAB_MODELS
-
-    click.echo(f"📦 Downloading {len(models_to_download)} model(s)...")
-    if verbose:
-        click.echo(f"Models: {', '.join(models_to_download)}")
-        click.echo(
-            "🎯 Excluding original/ files and focusing on essential lab files (.safetensors, configs, tokenizers)"
-        )
-
+    click.echo(f"📦 Downloading {len(LAB_MODELS)} model(s)...")
     success_count = 0
     error_count = 0
 
-    for model_name in models_to_download:
+    for model_name, model_info in LAB_MODELS.items():
         click.echo(f"\n🔄 Downloading {model_name}...")
 
         try:
-            # Download the model, excluding original/ files and focusing on essential files
-            local_path = snapshot_download(
+            snapshot_download(
                 repo_id=model_name,
-                cache_dir=cache_dir,
-                force_download=force_download,
                 local_files_only=False,
-                ignore_patterns=[
-                    "original/*",  # Exclude all files in the original/ directory
-                    "*.bin",  # Exclude legacy .bin files (prefer .safetensors)
-                ],
-                allow_patterns=[
-                    "*.safetensors*",  # Model weights in safetensors format
-                    "*.json",  # Configuration files
-                    "tokenizer*",  # Tokenizer files
-                    "*.txt",  # License, README, etc.
-                    "*.md",  # Documentation files
-                    ".gitattributes",  # Git attributes
-                    "generation_config.json",  # Generation configuration
-                ],
+                ignore_patterns=model_info.ignore_patterns or DEFAULT_IGNORE_PATTERNS,
+                allow_patterns=model_info.allow_patterns or DEFAULT_ALLOW_PATTERNS,
             )
 
             click.echo(f"✅ Successfully downloaded {model_name}")
-            if verbose:
-                click.echo(f"   Cached at: {local_path}")
-
             success_count += 1
 
         except HfHubHTTPError as e:
@@ -155,7 +78,6 @@ def download_models(
             error_count += 1
             logging.error(f"Failed to download {model_name}: {e}")
 
-    # Summary
     click.echo("\n📊 Download Summary:")
     click.echo(f"   ✅ Successful: {success_count}")
     click.echo(f"   ❌ Failed: {error_count}")

@@ -1,10 +1,21 @@
 """Agentic Labs."""
 
-from agentic_labs.engine import GGUF_MODELS
+from dataclasses import dataclass
 
-LAB_MODELS = [
-    "meta-llama/Llama-3.2-1B-Instruct",
-    "meta-llama/Llama-3.2-3B-Instruct",
-]
+# --------------------------------------------------------------------------------------
+# Default Models & Model Info
+# --------------------------------------------------------------------------------------
 
-__all__ = ["LAB_MODELS", "GGUF_MODELS"]
+
+@dataclass
+class ModelInfo:
+    ignore_patterns: list[str] | None = None
+    allow_patterns: list[str] | None = None
+
+
+LAB_MODELS: dict[str, ModelInfo] = {
+    "meta-llama/Llama-3.2-1B-Instruct": ModelInfo(),
+    "bartowski/Llama-3.2-3B-Instruct-GGUF": ModelInfo(
+        allow_patterns=["Llama-3.2-3B-Instruct-Q4_K_M.gguf"],
+    ),
+}

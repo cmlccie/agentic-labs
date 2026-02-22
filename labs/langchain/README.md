@@ -20,19 +20,24 @@ See the [repository README](../../README.md) for setup and system requirements.
 
 ## Running the Lab
 
+First, start the local LLM server in a separate terminal. The server runs in the foreground, so keep the terminal open while you work through the lab.
+
+```sh
+uv run agentic-labs local-llm
+```
+
+Then, in another terminal, run the lab script:
+
 ```sh
 uv run labs/langchain/agent.py
 ```
-
-On first run the model file (~2 GB) is downloaded and cached. Subsequent runs start in a few seconds.
 
 ## What You'll Observe
 
 When the script runs you'll see:
 
-1. A status line as the model loads.
-2. The agent sends "What's the weather in Paris?" to the local model with the `get_weather` tool available.
-3. The model's response is printed — either the tool's return value summarized in prose, or (if the model chose to call the tool directly) an indication that a tool call was made.
+1. The agent sends "What's the weather in Paris?" to the local model with the `get_weather` tool available.
+2. The model's response is printed — either the tool's return value summarized in prose, or (if the model chose to call the tool directly) an indication that a tool call was made.
 
 Note: small local models sometimes respond with text instead of issuing a tool call. This is normal and reflects differences in instruction-following capability. Observe the raw `response` object to understand what the model actually returned.
 
@@ -40,12 +45,11 @@ Note: small local models sometimes respond with text instead of issuing a tool c
 
 Open `agent.py` and read it top to bottom:
 
-1. **`start_local_llm()`** — starts the server and returns its base URL.
-2. **`ChatOpenAI`** — standard LangChain chat model pointed at `127.0.0.1:8080/v1`.
-3. **`@tool get_weather`** — a simple stub that returns a hard-coded weather string; the docstring becomes the tool description the model sees.
-4. **`llm.bind_tools()`** — creates a new runnable that includes tool definitions in every request.
-5. **`agent_llm.invoke()`** — sends the message and returns an `AIMessage`.
-6. **`response.content`** — the text content of the response (empty if the model issued a tool call instead).
+1. **`ChatOpenAI`** — standard LangChain chat model pointed at `127.0.0.1:8080/v1`, where the local server is listening.
+2. **`@tool get_weather`** — a simple stub that returns a hard-coded weather string; the docstring becomes the tool description the model sees.
+3. **`llm.bind_tools()`** — creates a new runnable that includes tool definitions in every request.
+4. **`agent_llm.invoke()`** — sends the message and returns an `AIMessage`.
+5. **`response.content`** — the text content of the response (empty if the model issued a tool call instead).
 
 ## Experiments to Try
 

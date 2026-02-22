@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
-"""Pydantic AI Agent Lab."""
+"""Pydantic AI Agent Lab.
 
-from agentic_labs.engine import start_local_llm
+Requires a running local LLM server. Start one with:
+    uv run agentic-labs local-llm
+"""
+
 from pydantic_ai import Agent
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
 
-base_url = start_local_llm("bartowski/Llama-3.2-3B-Instruct-GGUF")
-
 model = OpenAIChatModel(
     "local",
-    provider=OpenAIProvider(base_url=base_url, api_key="local"),
+    provider=OpenAIProvider(base_url="http://127.0.0.1:8080/v1", api_key="local"),
 )
 agent = Agent(model=model, system_prompt="You are a helpful assistant.")
 

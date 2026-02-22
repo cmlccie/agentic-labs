@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""LangChain Agent Lab."""
+"""LangChain Agent Lab.
 
-from agentic_labs.engine import start_local_llm
+Requires a running local LLM server. Start one with:
+    uv run agentic-labs local-llm
+"""
+
 from langchain_core.tools import tool
 from langchain_openai import ChatOpenAI
 
-base_url = start_local_llm("bartowski/Llama-3.2-3B-Instruct-GGUF")
-
-llm = ChatOpenAI(model="local", base_url=base_url, api_key="local")
+llm = ChatOpenAI(model="local", base_url="http://127.0.0.1:8080/v1", api_key="local")
 
 
 @tool
