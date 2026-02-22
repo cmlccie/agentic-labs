@@ -4,7 +4,7 @@ This repository contains simple hands-on labs to help you get started interactin
 
 ## Requirements
 
-- Python 3.13+
+- Python 3.12
 - [uv](https://github.com/astral-sh/uv) for dependency management
 - HuggingFace account with access to Llama models
 - HuggingFace CLI and API token configured
