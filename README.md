@@ -45,9 +45,8 @@ This repository contains simple hands-on labs to help you get started interactin
 
    a. Create a HuggingFace account at [https://huggingface.co](https://huggingface.co)
 
-   b. Request access to the following models. Requesting access to a model in a collection should grant you access to all models in the collection (e.g. these are both in the Llama 3.2 collection, so you should only need to request access to one of them):
+   b. Request access to the following models:
    - [`meta-llama/Llama-3.2-1B-Instruct`](https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct)
-   - [`meta-llama/Llama-3.2-3B-Instruct`](https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct)
 
    c. Login with your HuggingFace token:
 
