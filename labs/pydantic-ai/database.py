@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 """Database Agent - query a SQLite database using natural language.
 
-Requires a running local LLM server. Start one with:
-    uv run agentic-labs local-llm
-
-Requires a sample database. Create one with:
-    uv run agentic-labs create-database
+Requires a running local LLM server.
 """
 
 import sqlite3
@@ -16,7 +12,7 @@ from pydantic_ai import Agent, RunContext
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
 
-BASE_URL = "http://127.0.0.1:1234/v1"
+BASE_URL = "http://localhost:1234/v1"
 API_KEY = "lite-llm"
 MODEL = "openai/gpt-oss-20b"
 
