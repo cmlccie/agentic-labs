@@ -14,9 +14,9 @@ from pydantic_ai import Agent, RunContext
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
 
-BASE_URL = "http://localhost:8080/v1"
-API_KEY = "local"
-MODEL = "local"
+BASE_URL = "http://127.0.0.1:1234/v1"
+API_KEY = "lite-llm"
+MODEL = "openai/gpt-oss-20b"
 
 OPEN_METEO_FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
 OPEN_METEO_GEOCODING_URL = "https://geocoding-api.open-meteo.com/v1/search"
@@ -161,6 +161,10 @@ def get_weather_forecast(
     start_date = start_date or today
     end_date = end_date or today
 
+    print(
+        f"Fetching weather forecast for coordinates ({latitude}, {longitude}) from {start_date} to {end_date} with timezone '{timezone}'..."
+    )
+
     weather_variables = (
         list(set(weather_variables))
         if weather_variables
@@ -219,6 +223,7 @@ def get_locations(
     Returns:
         dict[str, Any]: A dictionary containing location information.
     """
+    print(f"Fetching location data for '{name}' with country code '{country_code}'...")
 
     request_parameters = {
         "name": name,
