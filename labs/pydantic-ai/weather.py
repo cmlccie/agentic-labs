@@ -5,7 +5,7 @@ Requires a running local LLM server. Start one with:
     uv run agentic-labs local-llm
 """
 
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from typing import Any, List, Literal, Optional
 from zoneinfo import ZoneInfo
 
@@ -231,9 +231,6 @@ def get_locations(
         request_parameters["countryCode"] = country_code
 
     response = requests.get(OPEN_METEO_GEOCODING_URL, params=request_parameters)
-    response.raise_for_status()
-    data = response.json()
-    results = data.get("results", [])
 
     try:
         response.raise_for_status()
