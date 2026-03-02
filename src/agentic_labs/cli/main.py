@@ -3,6 +3,7 @@
 import typer
 
 from .check_setup import check_setup
+from .create_database import create_database
 from .download_models import download_models
 from .local_llm import local_llm_cmd
 
@@ -13,6 +14,7 @@ cli = typer.Typer(
 
 # Register commands
 cli.command(name="check-setup")(check_setup)
+cli.command(name="create-database")(create_database)
 cli.command(name="download-models")(download_models)
 cli.command(name="local-llm")(local_llm_cmd)
 
