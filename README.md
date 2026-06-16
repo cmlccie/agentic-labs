@@ -66,6 +66,12 @@ This repository contains simple hands-on labs to help you get started interactin
    uv run agentic-labs download-models
    ```
 
+   Downloads:
+   - [`meta-llama/Llama-3.2-1B-Instruct`](https://huggingface.co/meta-llama/Llama-3.2-1B-Instruct) (~2.5GB)
+
+7. For the _**Agent and Tools Labs** (only)_ install [LM Studio](https://lmstudio.ai/), and download the following models:
+   - [`qwen/qwen3.5-9b`](https://lmstudio.ai/models/qwen/qwen3.5-9b) (~6GB @ 4-bit precision)
+
 ## Usage
 
 Edit and run the labs!
